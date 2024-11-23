@@ -1,0 +1,83 @@
+local cloneref = cloneref or function(...) return ... end
+
+local TweenService = cloneref(game:GetService("TweenService")) 
+local Players = cloneref(game:GetService("Players")) 
+local player = Players.LocalPlayer
+
+local function playNotificationSound()
+    local soundService = game:GetService("SoundService")
+    local notificationSound = Instance.new("Sound")
+    
+    notificationSound.SoundId = "rbxassetid://8745692251"
+    notificationSound.Volume = 0.5
+    notificationSound.Parent = soundService
+
+    notificationSound:Play()
+end
+
+local function logNotification(message)
+    print("[Notification]: " .. message) -- Logs the message to the console
+end
+
+getrenv().Visit = cloneref(game:GetService("Visit"))
+getrenv().MarketplaceService = cloneref(game:GetService("MarketplaceService"))
+getrenv().HttpRbxApiService = cloneref(game:GetService("HttpRbxApiService"))
+getrenv().HttpService = cloneref(game:GetService("HttpService"))
+local ContentProvider = cloneref(game:GetService("ContentProvider"))
+local RunService = cloneref(game:GetService("RunService"))
+local Stats = cloneref(game:GetService("Stats"))
+local Players = cloneref(game:GetService("Players"))
+local NetworkClient = cloneref(game:GetService("NetworkClient"))
+
+local function autoPurchaseUGCItem()
+    getrenv()._set = clonefunction(setthreadidentity)
+    local old
+    old = hookmetamethod(game, "__index", function(a, b)
+        task.spawn(function()
+            _set(7)
+            task.wait()
+            getgenv().promptpurchaserequestedv2 = MarketplaceService.PromptPurchaseRequestedV2:Connect(function(...)
+                logNotification("Prompt Detected: Attempting to purchase the UGC item...")
+                local startTime = tick()
+                local t = {...}
+                local assetId = t[2]
+                local idempotencyKey = t[5]
+                local purchaseAuthToken = t[6]
+                local info = MarketplaceService:GetProductInfo(assetId)
+                local productId = info.ProductId
+                local price = info.PriceInRobux
+                local collectibleItemId = info.CollectibleItemId
+                local collectibleProductId = info.CollectibleProductId
+
+                logNotification("PurchaseAuthToken: " .. purchaseAuthToken)
+                logNotification("IdempotencyKey: " .. idempotencyKey)
+                logNotification("CollectibleItemId: " .. collectibleItemId)
+                logNotification("CollectibleProductId: " .. collectibleProductId)
+                logNotification("ProductId (should be 0): " .. productId)
+                logNotification("Price: " .. price)
+                game:GetService("StarterGui"):SetCore("DevConsoleVisible",true)
+                playNotificationSound()
+                local success, result = pcall(function()
+                    return MarketplaceService:PerformPurchase(Enum.InfoType.Asset, productId, price,
+                        tostring(game:GetService("HttpService"):GenerateGUID(false)), true, collectibleItemId,
+                        collectibleProductId, idempotencyKey, tostring(purchaseAuthToken))
+                end)
+
+                if success then
+                    logNotification("First Purchase Attempt")
+                    for i, v in pairs(result) do
+                        logNotification(i .. ": " .. v)
+                    end
+                    local endTime = tick()
+                    local duration = endTime - startTime
+                    logNotification("Bought Item! Took " .. tostring(duration) .. " seconds")
+                else
+                    logNotification("Failed to Purchase Item: " .. result)
+                end
+            end)
+        end)
+        hookmetamethod(game, "__index", old)
+        return old(a, b)
+    end)
+end
+autoPurchaseUGCItem()
