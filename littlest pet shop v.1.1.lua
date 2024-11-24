@@ -29,7 +29,7 @@ local HWID
 
 
 
-local MarketplaceService = game:GetService("MarketplaceService") 
+local MarketplaceService = cloneref(game:GetService("MarketplaceService")) 
 local gameInfo = MarketplaceService:GetProductInfo(game.PlaceId)
 local gameName = gameInfo.Name
 local placeId = game.PlaceId
