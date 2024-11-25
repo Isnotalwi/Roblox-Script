@@ -4,19 +4,9 @@ local TweenService = cloneref(game:GetService("TweenService"))
 local Players = cloneref(game:GetService("Players")) 
 local player = Players.LocalPlayer
 
-local function playNotificationSound()
-    local soundService = game:GetService("SoundService")
-    local notificationSound = Instance.new("Sound")
-    
-    notificationSound.SoundId = "rbxassetid://8745692251"
-    notificationSound.Volume = 0.5
-    notificationSound.Parent = soundService
-
-    notificationSound:Play()
-end
-
-local function logNotification(message)
-    print("[Notification]: " .. message) -- Logs the message to the console
+-- Replaced createNotification with warn() function
+local function createNotification(message)
+    warn(message)
 end
 
 getrenv().Visit = cloneref(game:GetService("Visit"))
@@ -37,7 +27,7 @@ local function autoPurchaseUGCItem()
             _set(7)
             task.wait()
             getgenv().promptpurchaserequestedv2 = MarketplaceService.PromptPurchaseRequestedV2:Connect(function(...)
-                logNotification("Prompt Detected: Attempting to purchase the UGC item...")
+                createNotification("Prompt Detected: Attempting to purchase the UGC item...")
                 local startTime = tick()
                 local t = {...}
                 local assetId = t[2]
@@ -49,14 +39,12 @@ local function autoPurchaseUGCItem()
                 local collectibleItemId = info.CollectibleItemId
                 local collectibleProductId = info.CollectibleProductId
 
-                logNotification("PurchaseAuthToken: " .. purchaseAuthToken)
-                logNotification("IdempotencyKey: " .. idempotencyKey)
-                logNotification("CollectibleItemId: " .. collectibleItemId)
-                logNotification("CollectibleProductId: " .. collectibleProductId)
-                logNotification("ProductId (should be 0): " .. productId)
-                logNotification("Price: " .. price)
-                game:GetService("StarterGui"):SetCore("DevConsoleVisible",true)
-                playNotificationSound()
+                createNotification("PurchaseAuthToken: " .. tostring(purchaseAuthToken))
+                createNotification("IdempotencyKey: " .. tostring(idempotencyKey))
+                createNotification("CollectibleItemId: " .. tostring(collectibleItemId))
+                createNotification("CollectibleProductId: " .. tostring(collectibleProductId))
+                createNotification("ProductId (should be 0): " .. tostring(productId))
+                createNotification("Price: " .. tostring(price))
                 local success, result = pcall(function()
                     return MarketplaceService:PerformPurchase(Enum.InfoType.Asset, productId, price,
                         tostring(game:GetService("HttpService"):GenerateGUID(false)), true, collectibleItemId,
@@ -64,15 +52,17 @@ local function autoPurchaseUGCItem()
                 end)
 
                 if success then
-                    logNotification("First Purchase Attempt")
+                    createNotification("First Purchase Attempt")
                     for i, v in pairs(result) do
-                        logNotification(i .. ": " .. v)
+                        createNotification(i .. ": " .. tostring(v)) -- Ensure v is a string
                     end
                     local endTime = tick()
                     local duration = endTime - startTime
-                    logNotification("Bought Item! Took " .. tostring(duration) .. " seconds")
+                    createNotification("Bought Item! Took " .. tostring(duration) .. " seconds")
+                    -- Open the Developer Console
+                    game:GetService("StarterGui"):SetCore("DevConsoleVisible", true)
                 else
-                    logNotification("Failed to Purchase Item: " .. result)
+                    createNotification("Failed to Purchase Item: " .. tostring(result))
                 end
             end)
         end)
