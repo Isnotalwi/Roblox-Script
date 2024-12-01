@@ -1,0 +1,73 @@
+getgenv().Timed_Code = "Input_Code" --// The timed code.
+getgenv().Debug = true --// True or false, gives outputs in console.
+getgenv().Enable_Notifications = true --// This enables notifications that help explain progress.
+--} Variables 
+
+local function notify(header,text,duration)
+    task.spawn(function()
+        if getgenv().Enable_Notifications == true then
+            game:GetService("StarterGui"):SetCore("SendNotification", {
+                Title = header;
+                Duration = duration; 
+                Text =  text
+            })
+        end
+    end)
+end
+
+local check_args = {
+    [1] = getgenv().Timed_Code
+}
+
+local i,v = game:GetService("ReplicatedStorage"):WaitForChild("CheckCode"):InvokeServer(unpack(check_args))
+
+local requirements
+local codes_time 
+if v["requirements"] then
+    requirements = v["requirements"]
+else
+    notify("Error","There are no requirements!",5)
+end
+
+if requirements then
+    if requirements["min_redeem_ts"] then
+        codes_time = requirements["min_redeem_ts"]
+    else
+        notify("Error","There are no requirements for time!",5)
+    end
+end
+
+
+--} Script
+
+if requirements == nil or codes_time == nil then
+    notify("Script Error!","One of the variables are nil, meaning they don't exist! Script will not run",7)
+    return
+else
+    notify("Script Starting!", "Code's Unlock Time: " .. codes_time .. "\nReadable Format: " .. os.date("%c", codes_time), 7)
+end
+
+
+repeat
+    task.wait() 
+    task.spawn(function()
+        if getgenv().Debug == true then
+            print("Waiting.. [Created By Redblue] Time progress: " .. tostring((os.time()/codes_time)*100) .. "%")
+            print("Current Time: " .. os.time() .. "  |  Code's Unlock Time: " .. codes_time)
+        end
+    end)
+until
+    os.time() >= codes_time 
+    
+
+local args = {
+    [1] = getgenv().Timed_Code
+}
+    
+local redeem_progress = game:GetService("ReplicatedStorage"):WaitForChild("RedeemCode"):InvokeServer(unpack(args))
+
+if redeem_progress == true then
+    notify("Success!","Successfully redeemed code!",7)
+else
+    notify("Error!","Error while redeeming code.",7)
+end
