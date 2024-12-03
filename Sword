@@ -1,0 +1,66 @@
+
+local char = game.Players.LocalPlayer.Character
+local index
+local oldmt
+oldmt = hookmetamethod(game, "__index", function(self, index)
+    if self:IsA("Humanoid") and self:IsDescendantOf(char) and not checkcaller() then
+        if index == "WalkSpeed" then
+            return setspeed or 16
+        end
+        if index == "JumpPower" then
+            return setjump or 50
+        end
+    end
+    return oldmt(self, index)
+end)
+
+local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Imalwibest/Imalwibest/refs/heads/main/Fluxus%20Ui.lib"))()
+
+local Window = lib:CreateWindow("Server Teleporter")
+local MainTab = Window:NewTab("Main")
+
+local SliderSection = MainTab:AddSection("Slider")
+
+SliderSection:AddSlider("Adjust Speed", "Set the player speed", 16, 100, 16, false, function(value)
+    local speed = value or 16
+    game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid").WalkSpeed = speed
+end)
+
+SliderSection:AddSlider("Adjust Jump Height", "Set the jump height", 50, 200, 50, false, function(hey)
+    local jpower = hey or 50
+    local humanoid = game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+    if humanoid then
+        if humanoid.UseJumpPower then
+            humanoid.JumpPower = jpower
+        else
+            humanoid.JumpHeight = jpower
+        end
+    end
+end)
+local MainSection = MainTab:AddSection("Kill Aura")
+MainSection:AddButton("Enable Kill Aura", "This is a button", function()
+local range = 999999
+ 
+
+local player = game:GetService("Players").LocalPlayer
+ 
+
+game:GetService("RunService").RenderStepped:Connect(function()
+    local p = game.Players:GetPlayers()
+    for i = 2, #p do local v = p[i].Character
+        if v and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and v:FindFirstChild("HumanoidRootPart") and player:DistanceFromCharacter(v.HumanoidRootPart.Position) <= range then
+            local tool = player.Character and player.Character:FindFirstChildOfClass("Tool")
+            if tool and tool:FindFirstChild("Handle") then
+                tool:Activate()
+                for i,v in next, v:GetChildren() do
+                    if v:IsA("BasePart") then
+                        firetouchinterest(tool.Handle,v,0)
+                        firetouchinterest(tool.Handle,v,1)
+                    end
+                end
+            end
+        end
+    end
+end)
+    print("Button Clicked!")
+end)
