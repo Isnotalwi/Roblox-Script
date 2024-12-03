@@ -111,7 +111,7 @@ Main:AddToggle("Auto Swing + Auto Equip Inventory", "Auto Using",false,function(
 local Player = game.Players.LocalPlayer
 getgenv().firetools = Fire
 spawn(function()
-    while wait() and getgenv().firetools do
+    while getgenv().firetools and task.wait() do
         pcall(function()
             local Tool = Player.Backpack:FindFirstChildWhichIsA("Tool")
             if Tool and not Player.Character:FindFirstChildWhichIsA("Tool") then
@@ -127,7 +127,7 @@ end)
 end) 
 
 Main:AddToggle("Auto Bring Candy Cane", "Bring Sword",false,function(Dick) 
-getgenv().CandyCane = true
+getgenv().CandyCane = Dick
 
 while getgenv().CandyCane and task.wait() do
     task.spawn(function()
@@ -170,33 +170,36 @@ end
 
 end) 
 
-getgenv().Disabled = false
-getgenv().HeadSize = 40
 
-Main:AddToggle("Toggle Hitbox Boss", "Enable/Disable Hitbox Modification", false, function(bool)
-    getgenv().Disabled = bool
-end)
+-- Initialize state variables
+local hitboxToggled = false
+local hitboxSize = 40 
 
-Main:AddTextBox("Hitbox Size", function(Hitbox)
-    local size = tonumber(Hitbox)
-    if size then
-        getgenv().HeadSize = size
+-- Add Toggle for Hitbox Boss
+Main:AddToggle("Enable Hitbox", "Toggle hitbox modification", false, function(state)
+    hitboxToggled = state 
+    if hitboxToggled then
+        sendNotification("Hitbox", "Hitbox Modification Enabled", 3)
     else
-        warn("Invalid hitbox size entered!")
+        sendNotification("Hitbox", "Hitbox Modification Disabled", 3)
     end
 end)
 
+-- Add Slider for Hitbox Size
+Main:AddSlider("Hitbox Size", "Adjust the size of the hitbox", 1, 100, hitboxSize, false, function(value)
+    hitboxSize = value 
+end)
+
 game:GetService('RunService').RenderStepped:Connect(function()
-    if not getgenv().Disabled then
+    if hitboxToggled then
         local warden = workspace:FindFirstChild("THE GLACIER WARDEN")
         if warden and warden:IsA("Model") and warden:FindFirstChild("Humanoid") then
             pcall(function()
-                local humanoid = warden.Humanoid
-                local humanoidRootPart = humanoid.Parent:FindFirstChild("HumanoidRootPart")
+                local humanoidRootPart = warden:FindFirstChild("HumanoidRootPart")
                 if humanoidRootPart then
-                    humanoidRootPart.Size = Vector3.new(getgenv().HeadSize, getgenv().HeadSize, getgenv().HeadSize)
+                    humanoidRootPart.Size = Vector3.new(hitboxSize, hitboxSize, hitboxSize)
                     humanoidRootPart.Transparency = 0.7
-                    humanoidRootPart.BrickColor = BrickColor.new("Bright red") -- Changed to red
+                    humanoidRootPart.BrickColor = BrickColor.new("Bright red")
                     humanoidRootPart.Material = Enum.Material.Neon
                     humanoidRootPart.CanCollide = false
                 end
