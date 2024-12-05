@@ -171,10 +171,88 @@ end)
 
   
 giftSection:AddButton("Auto Purchase Sniper [Works fluxus and Apple ware]", "?",function() 
+local cloneref = cloneref or function(...) return ... end
 
-        notify("Repair", "Please Wait Ultil i fixed this", 5)
+local TweenService = cloneref(game:GetService("TweenService")) 
+local Players = cloneref(game:GetService("Players")) 
+local player = Players.LocalPlayer
 
-                    end) 
+local function playNotificationSound()
+    local soundService = game:GetService("SoundService")
+    local notificationSound = Instance.new("Sound")
+    
+    notificationSound.SoundId = "rbxassetid://8745692251" -- Fixed SoundId format
+    notificationSound.Volume = 0.5
+    notificationSound.Parent = soundService
+
+    notificationSound:Play()
+end
+
+getrenv().Visit = cloneref(game:GetService("Visit"))
+getrenv().MarketplaceService = cloneref(game:GetService("MarketplaceService"))
+getrenv().HttpRbxApiService = cloneref(game:GetService("HttpRbxApiService"))
+getrenv().HttpService = cloneref(game:GetService("HttpService"))
+local ContentProvider = cloneref(game:GetService("ContentProvider"))
+local RunService = cloneref(game:GetService("RunService"))
+local Stats = cloneref(game:GetService("Stats"))
+local Players = cloneref(game:GetService("Players"))
+local NetworkClient = cloneref(game:GetService("NetworkClient"))
+
+local function autoPurchaseUGCItem()
+    getrenv()._set = clonefunction(setthreadidentity)
+    local old
+    old = hookmetamethod(game, "__index", function(a, b)
+        task.spawn(function()
+            _set(7)
+            task.wait()
+            getgenv().promptpurchaserequestedv2 = MarketplaceService.PromptPurchaseRequestedV2:Connect(function(...)
+                print("Prompt Detected: Attempting to purchase the UGC item...")
+                local startTime = tick()
+                local t = {...}
+                local assetId = t[2]
+                local idempotencyKey = t[5]
+                local purchaseAuthToken = t[6]
+                local info = MarketplaceService:GetProductInfo(assetId)
+                local productId = info.ProductId
+                local price = info.PriceInRobux
+                local collectibleItemId = info.CollectibleItemId
+                local collectibleProductId = info.CollectibleProductId
+
+                -- Print all variables
+                print("PurchaseAuthToken: " .. tostring(purchaseAuthToken))
+                print("IdempotencyKey: " .. tostring(idempotencyKey))
+                print("CollectibleItemId: " .. tostring(collectibleItemId))
+                print("CollectibleProductId: " .. tostring(collectibleProductId))
+                print("ProductId (should be 0): " .. tostring(productId))
+                print("Price: " .. tostring(price))
+                playNotificationSound()
+
+                local success, result = pcall(function()
+                    return MarketplaceService:PerformPurchase(Enum.InfoType.Asset, productId, price,
+                        tostring(game:GetService("HttpService"):GenerateGUID(false)), true, collectibleItemId,
+                        collectibleProductId, idempotencyKey, tostring(purchaseAuthToken))
+                end)
+
+                if success then
+                    print("First Purchase Attempt")
+                    for i, v in pairs(result) do
+                        print(tostring(i) .. ": " .. tostring(v))
+                    end
+                    local endTime = tick()
+                    local duration = endTime - startTime
+                    print("Bought Item! Took " .. tostring(duration) .. " seconds")
+                else
+                    print("Failed to Purchase Item: " .. tostring(result))
+                end
+            end)
+        end)
+        hookmetamethod(game, "__index", old)
+        return old(a, b)
+    end)
+end
+autoPurchaseUGCItem()
+
+end) 
 
 
 Others:AddToggle("Hide Player", "?",false,function(Why) 
