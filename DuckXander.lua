@@ -140,10 +140,10 @@ giftSection:AddToggle("Auto Buy", "?", false, function(Open)
                     game:GetService("VirtualInputManager"):SendMouseButtonEvent(pos.X + tonumber(x), pos.Y + tonumber(y), 0, true, game, 1)
                     wait()
                     game:GetService("VirtualInputManager"):SendMouseButtonEvent(pos.X + tonumber(x), pos.Y + tonumber(y), 0, false, game, 1)
-                    wait(ClickingSpeed)
+                    wait(0.1)
                 end
             end
-            wait()
+            wait(0.1) 
         end
     end)
 end)
@@ -158,11 +158,11 @@ giftSection:AddToggle("Auto Close Error", "?", false, function(closed)
                 if pp.AlertContents.Footer.Buttons:FindFirstChild("1") then
                     local b1 = pp.AlertContents.Footer.Buttons[1].AbsolutePosition
                     game:GetService("VirtualInputManager"):SendMouseButtonEvent(b1.X + 55, b1.Y + 65.5, 0, true, game, 1)
-                    wait()
+                    wait() 
                     game:GetService("VirtualInputManager"):SendMouseButtonEvent(b1.X + 55, b1.Y + 65.5, 0, false, game, 1)
                 end
             end
-            wait()
+            wait(0.1) 
         end
     end)
 end)
