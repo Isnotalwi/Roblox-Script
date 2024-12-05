@@ -7,6 +7,11 @@ local check_counter = 0
 local limsniper2 = false
 local limid = nil
 local updspeed = 0.3
+local ClickingSpeed = 0
+local x, y, m = 55, 65.5, 1
+local Fuck = false
+local Mother = false
+
 
 -- Populate gifts list
 for i, v in ipairs(workspace:GetDescendants()) do
@@ -114,81 +119,55 @@ giftSection:AddToggle("Enable Sniper", "Toggle the gift sniping functionality", 
     end
 end)
 
+
+giftSection:CreateToggle("Auto Buy","?", function(Open)  
+    Mother = Open
+    spawn(function()
+        while Mother do 
+            if game.CoreGui.PurchasePrompt.ProductPurchaseContainer.Animator:FindFirstChild("Prompt") and
+                game.CoreGui.PurchasePrompt.ProductPurchaseContainer.Animator.Prompt:FindFirstChild("AlertContents") and
+                game.CoreGui.PurchasePrompt.ProductPurchaseContainer.Animator.Prompt.AlertContents:FindFirstChild("Footer") and
+                game.CoreGui.PurchasePrompt.ProductPurchaseContainer.Animator.Prompt.AlertContents.Footer:FindFirstChild("Buttons") and
+                game.CoreGui.PurchasePrompt.ProductPurchaseContainer.Animator.Prompt.AlertContents.Footer.Buttons:FindFirstChild("2") and
+                game.CoreGui.PurchasePrompt.ProductPurchaseContainer.Animator.Prompt.AlertContents.Footer.Buttons[2]:FindFirstChild("ButtonContent").ButtonMiddleContent and
+                game.CoreGui.PurchasePrompt.ProductPurchaseContainer.Animator.Prompt.AlertContents.Footer.Buttons[2]:FindFirstChild("ButtonContent").ButtonMiddleContent:FindFirstChildOfClass("TextLabel") and tonumber(
+                game.CoreGui.PurchasePrompt.ProductPurchaseContainer.Animator.Prompt.AlertContents.Footer.Buttons[2]:FindFirstChild("ButtonContent").ButtonMiddleContent:FindFirstChildOfClass("TextLabel").Text) <= tonumber(m) then
+
+                local pos = game.CoreGui.PurchasePrompt.ProductPurchaseContainer.Animator.Prompt.AlertContents.Footer.Buttons[2].AbsolutePosition
+                game:GetService("VirtualInputManager"):SendMouseButtonEvent(pos.X + tonumber(x), pos.Y + tonumber(y), 0, true, game, 1)
+                wait()
+                game:GetService("VirtualInputManager"):SendMouseButtonEvent(pos.X + tonumber(x), pos.Y + tonumber(y), 0, false, game, 1)
+                wait(ClickingSpeed)
+            else
+                wait()
+            end
+        end
+    end)
+
+giftSection:CreateToggle("Auto Close Error","? "function(closed)
+    Fuck = closed
+    spawn(function()
+        while Fuck do
+            local pp = game.CoreGui.PurchasePrompt.ProductPurchaseContainer.Animator:FindFirstChild("Prompt")
+            if pp and pp.AlertContents and pp.AlertContents.Footer and pp.AlertContents.Footer.Buttons and not pp.AlertContents.Footer.Buttons:FindFirstChild("2") then
+                if pp.AlertContents.Footer.Buttons:FindFirstChild("1") then
+                    local b1 = pp.AlertContents.Footer.Buttons[1].AbsolutePosition
+                    game:GetService("VirtualInputManager"):SendMouseButtonEvent(b1.X + 55, b1.Y + 65.5, 0, true, game, 1)
+                    wait()
+                    game:GetService("VirtualInputManager"):SendMouseButtonEvent(b1.X + 55, b1.Y + 65.5, 0, false, game, 1)
+                end
+            end
+            wait()
+        end
+    end)
+ 
+
   
 giftSection:AddButton("Auto Purchase Sniper [Works fluxus and Apple ware]", "?",function() 
-local cloneref = cloneref or function(...) return ... end
 
-local TweenService = cloneref(game:GetService("TweenService")) 
-local Players = cloneref(game:GetService("Players")) 
-local player = Players.LocalPlayer
+        notify("Repair", "Please Wait Ultil i fixed this", 5)
 
--- Replaced createNotification with warn() function
-local function createNotification(message)
-    warn(message)
-end
-
-getrenv().Visit = cloneref(game:GetService("Visit"))
-getrenv().MarketplaceService = cloneref(game:GetService("MarketplaceService"))
-getrenv().HttpRbxApiService = cloneref(game:GetService("HttpRbxApiService"))
-getrenv().HttpService = cloneref(game:GetService("HttpService"))
-local ContentProvider = cloneref(game:GetService("ContentProvider"))
-local RunService = cloneref(game:GetService("RunService"))
-local Stats = cloneref(game:GetService("Stats"))
-local Players = cloneref(game:GetService("Players"))
-local NetworkClient = cloneref(game:GetService("NetworkClient"))
-
-local function autoPurchaseUGCItem()
-    getrenv()._set = clonefunction(setthreadidentity)
-    local old
-    old = hookmetamethod(game, "__index", function(a, b)
-        task.spawn(function()
-            _set(7)
-            task.wait()
-            getgenv().promptpurchaserequestedv2 = MarketplaceService.PromptPurchaseRequestedV2:Connect(function(...)
-                createNotification("Prompt Detected: Attempting to purchase the UGC item...")
-                local startTime = tick()
-                local t = {...}
-                local assetId = t[2]
-                local idempotencyKey = t[5]
-                local purchaseAuthToken = t[6]
-                local info = MarketplaceService:GetProductInfo(assetId)
-                local productId = info.ProductId
-                local price = info.PriceInRobux
-                local collectibleItemId = info.CollectibleItemId
-                local collectibleProductId = info.CollectibleProductId
-
-                createNotification("PurchaseAuthToken: " .. tostring(purchaseAuthToken))
-                createNotification("IdempotencyKey: " .. tostring(idempotencyKey))
-                createNotification("CollectibleItemId: " .. tostring(collectibleItemId))
-                createNotification("CollectibleProductId: " .. tostring(collectibleProductId))
-                createNotification("ProductId (should be 0): " .. tostring(productId))
-                createNotification("Price: " .. tostring(price))
-                local success, result = pcall(function()
-                    return MarketplaceService:PerformPurchase(Enum.InfoType.Asset, productId, price,
-                        tostring(game:GetService("HttpService"):GenerateGUID(false)), true, collectibleItemId,
-                        collectibleProductId, idempotencyKey, tostring(purchaseAuthToken))
-                end)
-
-                if success then
-                    createNotification("First Purchase Attempt")
-                    for i, v in pairs(result) do
-                        createNotification(i .. ": " .. tostring(v)) -- Ensure v is a string
-                    end
-                    local endTime = tick()
-                    local duration = endTime - startTime
-                    createNotification("Bought Item! Took " .. tostring(duration) .. " seconds")
-                    game:GetService("StarterGui"):SetCore("DevConsoleVisible", true)
-                else
-                    createNotification("Failed to Purchase Item: " .. tostring(result))
-                end
-            end)
-        end)
-        hookmetamethod(game, "__index", old)
-        return old(a, b)
-    end)
-end
-autoPurchaseUGCItem()
-end) 
+                    end) 
 
 
 Others:AddToggle("Hide Player", "?",false,function(Why) 
