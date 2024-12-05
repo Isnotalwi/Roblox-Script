@@ -7,7 +7,6 @@ local check_counter = 0
 local limsniper2 = false
 local limid = nil
 local updspeed = 0.3
-local autoPurchaseEnabled = false
 
 -- Populate gifts list
 for i, v in ipairs(workspace:GetDescendants()) do
@@ -195,11 +194,12 @@ end)
 Others:AddToggle("Hide Player", "?",false,function(Why) 
 getgenv().Hide = Why
 task.spawn(function() 
-    while getgenv().Hide and task.wait(5) do
+    while getgenv().Hide do
         pcall(function() 
             for _, v in pairs(game.Players:GetPlayers()) do
                 if v.Name ~= game.Players.LocalPlayer.Name and v.Character then
                     v.Character:Destroy()
+                    wait(5) 
                 end
             end
         end)
