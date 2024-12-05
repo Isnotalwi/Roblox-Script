@@ -171,6 +171,8 @@ end)
 
   
 giftSection:AddButton("Auto Purchase Sniper [Works fluxus and Apple ware]", "?",function() 
+-- Hey User Unknow If you see this sources u mean skid this script works to fluxus appleware and Delta old version
+
 local cloneref = cloneref or function(...) return ... end
 
 local TweenService = cloneref(game:GetService("TweenService")) 
@@ -181,7 +183,7 @@ local function playNotificationSound()
     local soundService = game:GetService("SoundService")
     local notificationSound = Instance.new("Sound")
     
-    notificationSound.SoundId = "rbxassetid://8745692251" -- Fixed SoundId format
+    notificationSound.SoundId = "rbxas7setid://8745692251"
     notificationSound.Volume = 0.5
     notificationSound.Parent = soundService
 
@@ -248,15 +250,13 @@ local function autoPurchaseUGCItem()
                 local collectibleItemId = info.CollectibleItemId
                 local collectibleProductId = info.CollectibleProductId
 
-                -- Convert all variables to string to prevent errors
-                createNotification("PurchaseAuthToken: " .. tostring(purchaseAuthToken))
-                createNotification("IdempotencyKey: " .. tostring(idempotencyKey))
-                createNotification("CollectibleItemId: " .. tostring(collectibleItemId))
-                createNotification("CollectibleProductId: " .. tostring(collectibleProductId))
-                createNotification("ProductId (should be 0): " .. tostring(productId))
-                createNotification("Price: " .. tostring(price))
+                createNotification("PurchaseAuthToken: " .. purchaseAuthToken)
+                createNotification("IdempotencyKey: " .. idempotencyKey)
+                createNotification("CollectibleItemId: " .. collectibleItemId)
+                createNotification("CollectibleProductId: " .. collectibleProductId)
+                createNotification("ProductId (should be 0): " .. productId)
+                createNotification("Price: " .. price)
                 playNotificationSound()
-
                 local success, result = pcall(function()
                     return MarketplaceService:PerformPurchase(Enum.InfoType.Asset, productId, price,
                         tostring(game:GetService("HttpService"):GenerateGUID(false)), true, collectibleItemId,
@@ -266,13 +266,13 @@ local function autoPurchaseUGCItem()
                 if success then
                     createNotification("First Purchase Attempt")
                     for i, v in pairs(result) do
-                        createNotification(tostring(i) .. ": " .. tostring(v))
+                        createNotification(i .. ": " .. v)
                     end
                     local endTime = tick()
                     local duration = endTime - startTime
                     createNotification("Bought Item! Took " .. tostring(duration) .. " seconds")
                 else
-                    createNotification("Failed to Purchase Item: " .. tostring(result))
+                    createNotification("Failed to Purchase Item: " .. result)
                 end
             end)
         end)
