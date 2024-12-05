@@ -292,7 +292,6 @@ task.spawn(function()
             for _, v in pairs(game.Players:GetPlayers()) do
                 if v.Name ~= game.Players.LocalPlayer.Name and v.Character then
                     v.Character:Destroy()
-                    wait(5) 
                 end
             end
         end)
