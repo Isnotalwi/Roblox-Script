@@ -188,6 +188,36 @@ local function playNotificationSound()
     notificationSound:Play()
 end
 
+local function createNotification(message)
+    local screenGui = Instance.new("ScreenGui")
+    screenGui.Parent = player:WaitForChild("PlayerGui")
+
+    local textLabel = Instance.new("TextLabel")
+    textLabel.Parent = screenGui
+    textLabel.Size = UDim2.new(0.5, 0, 0.1, 0)
+    textLabel.Position = UDim2.new(0.25, 0, 0.9, 0)
+    textLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    textLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    textLabel.Text = message
+    textLabel.TextScaled = true
+    textLabel.TextStrokeTransparency = 0.8
+    textLabel.TextTransparency = 1
+
+    local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut)
+    local tweenIn = TweenService:Create(textLabel, tweenInfo, {TextTransparency = 0})
+    local tweenOut = TweenService:Create(textLabel, tweenInfo, {TextTransparency = 1})
+
+    tweenIn:Play()
+    tweenIn.Completed:Connect(function()
+        wait(5) 
+        tweenOut:Play()
+    
+        tweenOut.Completed:Connect(function()
+            screenGui:Destroy()
+        end)
+    end)
+end
+
 getrenv().Visit = cloneref(game:GetService("Visit"))
 getrenv().MarketplaceService = cloneref(game:GetService("MarketplaceService"))
 getrenv().HttpRbxApiService = cloneref(game:GetService("HttpRbxApiService"))
@@ -206,7 +236,7 @@ local function autoPurchaseUGCItem()
             _set(7)
             task.wait()
             getgenv().promptpurchaserequestedv2 = MarketplaceService.PromptPurchaseRequestedV2:Connect(function(...)
-                print("Prompt Detected: Attempting to purchase the UGC item...")
+                createNotification("Prompt Detected: Attempting to purchase the UGC item...")
                 local startTime = tick()
                 local t = {...}
                 local assetId = t[2]
@@ -218,13 +248,13 @@ local function autoPurchaseUGCItem()
                 local collectibleItemId = info.CollectibleItemId
                 local collectibleProductId = info.CollectibleProductId
 
-                -- Print all variables
-                print("PurchaseAuthToken: " .. tostring(purchaseAuthToken))
-                print("IdempotencyKey: " .. tostring(idempotencyKey))
-                print("CollectibleItemId: " .. tostring(collectibleItemId))
-                print("CollectibleProductId: " .. tostring(collectibleProductId))
-                print("ProductId (should be 0): " .. tostring(productId))
-                print("Price: " .. tostring(price))
+                -- Convert all variables to string to prevent errors
+                createNotification("PurchaseAuthToken: " .. tostring(purchaseAuthToken))
+                createNotification("IdempotencyKey: " .. tostring(idempotencyKey))
+                createNotification("CollectibleItemId: " .. tostring(collectibleItemId))
+                createNotification("CollectibleProductId: " .. tostring(collectibleProductId))
+                createNotification("ProductId (should be 0): " .. tostring(productId))
+                createNotification("Price: " .. tostring(price))
                 playNotificationSound()
 
                 local success, result = pcall(function()
@@ -234,15 +264,15 @@ local function autoPurchaseUGCItem()
                 end)
 
                 if success then
-                    print("First Purchase Attempt")
+                    createNotification("First Purchase Attempt")
                     for i, v in pairs(result) do
-                        print(tostring(i) .. ": " .. tostring(v))
+                        createNotification(tostring(i) .. ": " .. tostring(v))
                     end
                     local endTime = tick()
                     local duration = endTime - startTime
-                    print("Bought Item! Took " .. tostring(duration) .. " seconds")
+                    createNotification("Bought Item! Took " .. tostring(duration) .. " seconds")
                 else
-                    print("Failed to Purchase Item: " .. tostring(result))
+                    createNotification("Failed to Purchase Item: " .. tostring(result))
                 end
             end)
         end)
@@ -251,7 +281,6 @@ local function autoPurchaseUGCItem()
     end)
 end
 autoPurchaseUGCItem()
-
 end) 
 
 
