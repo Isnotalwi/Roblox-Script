@@ -120,35 +120,40 @@ giftSection:AddToggle("Enable Sniper", "Toggle the gift sniping functionality", 
 end)
 
 
-giftSection:CreateToggle("Auto Buy","?", function(Open)  
+giftSection:AddToggle("Auto Buy", "?", false, function(Open)
     Mother = Open
     spawn(function()
-        while Mother do 
-            if game.CoreGui.PurchasePrompt.ProductPurchaseContainer.Animator:FindFirstChild("Prompt") and
-                game.CoreGui.PurchasePrompt.ProductPurchaseContainer.Animator.Prompt:FindFirstChild("AlertContents") and
-                game.CoreGui.PurchasePrompt.ProductPurchaseContainer.Animator.Prompt.AlertContents:FindFirstChild("Footer") and
-                game.CoreGui.PurchasePrompt.ProductPurchaseContainer.Animator.Prompt.AlertContents.Footer:FindFirstChild("Buttons") and
-                game.CoreGui.PurchasePrompt.ProductPurchaseContainer.Animator.Prompt.AlertContents.Footer.Buttons:FindFirstChild("2") and
-                game.CoreGui.PurchasePrompt.ProductPurchaseContainer.Animator.Prompt.AlertContents.Footer.Buttons[2]:FindFirstChild("ButtonContent").ButtonMiddleContent and
-                game.CoreGui.PurchasePrompt.ProductPurchaseContainer.Animator.Prompt.AlertContents.Footer.Buttons[2]:FindFirstChild("ButtonContent").ButtonMiddleContent:FindFirstChildOfClass("TextLabel") and tonumber(
-                game.CoreGui.PurchasePrompt.ProductPurchaseContainer.Animator.Prompt.AlertContents.Footer.Buttons[2]:FindFirstChild("ButtonContent").ButtonMiddleContent:FindFirstChildOfClass("TextLabel").Text) <= tonumber(m) then
+        while Mother do
+            local purchaseContainer = game.CoreGui.PurchasePrompt.ProductPurchaseContainer.Animator
+            if purchaseContainer:FindFirstChild("Prompt") and
+                purchaseContainer.Prompt:FindFirstChild("AlertContents") and
+                purchaseContainer.Prompt.AlertContents:FindFirstChild("Footer") and
+                purchaseContainer.Prompt.AlertContents.Footer:FindFirstChild("Buttons") and
+                purchaseContainer.Prompt.AlertContents.Footer.Buttons:FindFirstChild("2") and
+                purchaseContainer.Prompt.AlertContents.Footer.Buttons[2]:FindFirstChild("ButtonContent") and
+                purchaseContainer.Prompt.AlertContents.Footer.Buttons[2].ButtonContent:FindFirstChild("ButtonMiddleContent") and
+                purchaseContainer.Prompt.AlertContents.Footer.Buttons[2].ButtonContent.ButtonMiddleContent:FindFirstChildOfClass("TextLabel") then
 
-                local pos = game.CoreGui.PurchasePrompt.ProductPurchaseContainer.Animator.Prompt.AlertContents.Footer.Buttons[2].AbsolutePosition
-                game:GetService("VirtualInputManager"):SendMouseButtonEvent(pos.X + tonumber(x), pos.Y + tonumber(y), 0, true, game, 1)
-                wait()
-                game:GetService("VirtualInputManager"):SendMouseButtonEvent(pos.X + tonumber(x), pos.Y + tonumber(y), 0, false, game, 1)
-                wait(ClickingSpeed)
-            else
-                wait()
+                local priceText = purchaseContainer.Prompt.AlertContents.Footer.Buttons[2].ButtonContent.ButtonMiddleContent:FindFirstChildOfClass("TextLabel").Text
+                if tonumber(priceText) and tonumber(priceText) <= tonumber(m) then
+                    local pos = purchaseContainer.Prompt.AlertContents.Footer.Buttons[2].AbsolutePosition
+                    game:GetService("VirtualInputManager"):SendMouseButtonEvent(pos.X + tonumber(x), pos.Y + tonumber(y), 0, true, game, 1)
+                    wait()
+                    game:GetService("VirtualInputManager"):SendMouseButtonEvent(pos.X + tonumber(x), pos.Y + tonumber(y), 0, false, game, 1)
+                    wait(ClickingSpeed)
+                end
             end
+            wait()
         end
     end)
+end)
 
-giftSection:CreateToggle("Auto Close Error","? "function(closed)
+giftSection:AddToggle("Auto Close Error", "?", false, function(closed)
     Fuck = closed
     spawn(function()
         while Fuck do
-            local pp = game.CoreGui.PurchasePrompt.ProductPurchaseContainer.Animator:FindFirstChild("Prompt")
+            local purchaseContainer = game.CoreGui.PurchasePrompt.ProductPurchaseContainer.Animator
+            local pp = purchaseContainer:FindFirstChild("Prompt")
             if pp and pp.AlertContents and pp.AlertContents.Footer and pp.AlertContents.Footer.Buttons and not pp.AlertContents.Footer.Buttons:FindFirstChild("2") then
                 if pp.AlertContents.Footer.Buttons:FindFirstChild("1") then
                     local b1 = pp.AlertContents.Footer.Buttons[1].AbsolutePosition
@@ -160,6 +165,8 @@ giftSection:CreateToggle("Auto Close Error","? "function(closed)
             wait()
         end
     end)
+end)
+
  
 
   
