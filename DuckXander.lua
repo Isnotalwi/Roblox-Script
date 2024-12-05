@@ -120,7 +120,7 @@ giftSection:AddToggle("Enable Sniper", "Toggle the gift sniping functionality", 
 end)
 
 
-giftSection:AddToggle("Auto Buy", "?", false, function(Open)
+giftSection:AddToggle("Auto Buy [Auto Clickers]", "?", false, function(Open)
     Mother = Open
     spawn(function()
         while Mother do
@@ -148,7 +148,7 @@ giftSection:AddToggle("Auto Buy", "?", false, function(Open)
     end)
 end)
 
-giftSection:AddToggle("Auto Close Error", "?", false, function(closed)
+giftSection:AddToggle("Auto Close Error [Auto Clickers]", "?", false, function(closed)
     Fuck = closed
     spawn(function()
         while Fuck do
@@ -170,7 +170,7 @@ end)
  
 
   
-giftSection:AddButton("Auto Purchase Sniper [Works fluxus and Apple ware]", "?",function() 
+giftSection:AddButton("Auto Purchase [With Vulnebility V1]", "?",function() 
 -- Hey User Unknow If you see this sources u mean skid this script works to fluxus appleware and Delta old version
 
 local cloneref = cloneref or function(...) return ... end
