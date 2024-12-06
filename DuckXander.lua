@@ -171,7 +171,7 @@ end)
 Others:AddToggle("Hide Player", "?",false,function(Why) 
 getgenv().Hide = Why
 task.spawn(function() 
-    while getgenv().Hide and task.wait(0.1) 
+    while getgenv().Hide and task.wait(0.1) do
         pcall(function() 
             for _, v in pairs(game.Players:GetPlayers()) do
                 if v.Name ~= game.Players.LocalPlayer.Name and v.Character then
