@@ -166,8 +166,64 @@ giftSection:AddToggle("Auto Close Error [Auto Clickers]", "?", false, function(c
         end
     end)
 end)
+Others:AddButton("Time Local", "?",function(Why) 
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "TimeDisplay"
+screenGui.ResetOnSpawn = false
+screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
+local timeLabel = Instance.new("TextLabel")
+timeLabel.Name = "TimeLabel"
+timeLabel.Parent = screenGui
+timeLabel.Size = UDim2.new(0.3, 0, 0.1, 0)
+timeLabel.Position = UDim2.new(0.35, 0, 0.1, 0)
+timeLabel.BackgroundColor3 = Color3.new(0, 0, 0)
+timeLabel.BackgroundTransparency = 0.5
+timeLabel.TextColor3 = Color3.new(1, 1, 1)
+timeLabel.TextScaled = true
+timeLabel.Font = Enum.Font.SourceSans
+timeLabel.Text = "Loading Time..."
 
+local dragging = false
+local dragStart = nil
+local startPosition = nil
+local userInputService = game:GetService("UserInputService")
+
+timeLabel.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = true
+        dragStart = input.Position
+        startPosition = timeLabel.Position
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
+            end
+        end)
+    end
+end)
+
+timeLabel.InputChanged:Connect(function(input)
+    if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+        local delta = input.Position - dragStart
+        timeLabel.Position = UDim2.new(
+            startPosition.X.Scale,
+            startPosition.X.Offset + delta.X,
+            startPosition.Y.Scale,
+            startPosition.Y.Offset + delta.Y
+        )
+    end
+end)
+
+local function updateTime()
+    while true do
+        local currentTime = os.date("%H:%M:%S")
+        timeLabel.Text = "Current Time: " .. currentTime
+        wait(1)
+    end
+end
+
+updateTime()
+end) 
 Others:AddToggle("Hide Player", "?",false,function(Why) 
 getgenv().Hide = Why
 task.spawn(function() 
