@@ -6,4 +6,4 @@
 --    ["Delay Multi Candy Increase"] = 1 -- delay candy Increase
 --}
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Imalwibest/Imalwibest/refs/heads/main/local%20your%20furry.lua",true))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Imalwibest/Imalwibest/refs/heads/main/local%20your%20furry%20find%20ghost.lua",true))()
