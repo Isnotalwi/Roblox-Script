@@ -57,7 +57,7 @@ HWID = game:GetService("RbxAnalyticsService"):GetClientId()
 Logged:AddButton("Hardware ID: " .. HWID, "Your device HWID", function() end)
 
 Discord:AddButton("Discord Server", "Join our Discord", function()
-    setclipboard("https://discord.gg/cpXUTmMXXd")
+    setclipboard("https://discord.gg/vscePW7v")
 end)
 
 Bugs:AddButton("Event", "?", function()
