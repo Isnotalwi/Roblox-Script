@@ -46,6 +46,7 @@ local window = lib:CreateWindow("Alwi Hub | Ducks fuckers")
 local giftTab = window:NewTab("Gift")
 
 local giftSection = giftTab:AddSection("Gift Options")
+local sub = giftTab:AddSection("Auto Buy Thing")
 local Others = giftTab:AddSection("Misc")
 
 giftSection:AddDropdown("Gift Items List", "Select a gift from the list", gifts, false, function(selectedGift)
@@ -120,7 +121,7 @@ giftSection:AddToggle("Enable Sniper", "Toggle the gift sniping functionality", 
 end)
 
 
-giftSection:AddToggle("Auto Buy [Auto Clickers]", "?", false, function(Open)
+sub:AddToggle("Auto Buy [Auto Clickers]", "?", false, function(Open)
     Mother = Open
     spawn(function()
         while Mother do
@@ -148,7 +149,7 @@ giftSection:AddToggle("Auto Buy [Auto Clickers]", "?", false, function(Open)
     end)
 end)
 
-giftSection:AddToggle("Auto Close Error [Auto Clickers]", "?", false, function(closed)
+sub:AddToggle("Auto Close Error [Auto Clickers]", "?", false, function(closed)
     Fuck = closed
     spawn(function()
         while Fuck do
