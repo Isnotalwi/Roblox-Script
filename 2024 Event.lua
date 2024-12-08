@@ -188,6 +188,7 @@ end)
 -- Add Slider for Hitbox Size
 Main:AddSlider("Hitbox Size", "Adjust the size of the hitbox", 1, 100, hitboxSize, false, function(value)
     hitboxSize = value 
+    -- error("running 0 nil") 
 end)
 
 game:GetService('RunService').RenderStepped:Connect(function()
