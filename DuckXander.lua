@@ -102,7 +102,7 @@ giftSection:AddToggle("Enable Sniper", "Toggle the gift sniping functionality", 
                         if success and giftInfo.IsForSale then
                             for _ = 1, 4 do
                                 fireproximityprompt(giftProximity)
-                                task.wait(5)
+                                task.wait(0) 
                             end
                             notify("Gift Item On Sale", "Buy that item before it goes out of stock!", 5)
                             check_counter = 0
@@ -219,7 +219,7 @@ local function updateTime()
     while true do
         local currentTime = os.date("%H:%M:%S")
         timeLabel.Text = "Current Time: " .. currentTime
-        wait(1)
+        wait() 
     end
 end
 
