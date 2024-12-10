@@ -1,8 +1,134 @@
+local lib = {}
+local TS = game:GetService("TweenService")
+local GUI = game:GetService("CoreGui"):FindFirstChild("Fluxus_NofiticationRemake")
+
+-- Create GUI if not exists
+if not GUI then
+    local Fluxus_NofiticationRemake = Instance.new("ScreenGui")
+    Fluxus_NofiticationRemake.Name = "Fluxus_NofiticationRemake"
+    Fluxus_NofiticationRemake.Parent = game.CoreGui
+    Fluxus_NofiticationRemake.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    Fluxus_NofiticationRemake.ResetOnSpawn = false
+
+    local Fluxus_NofiticationUIListLayout = Instance.new("UIListLayout")
+    Fluxus_NofiticationUIListLayout.Name = "Fluxus_NofiticationUIListLayout"
+    Fluxus_NofiticationUIListLayout.Parent = Fluxus_NofiticationRemake
+    Fluxus_NofiticationUIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Right
+    Fluxus_NofiticationUIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+    Fluxus_NofiticationUIListLayout.VerticalAlignment = Enum.VerticalAlignment.Bottom
+
+    GUI = Fluxus_NofiticationRemake
+end
+
+-- Create a draggable frame inside the GUI
+local draggableFrame = Instance.new("Frame")
+draggableFrame.Size = UDim2.new(0, 300, 0, 80)
+draggableFrame.Position = UDim2.new(0.5, -150, 0.5, -40)  -- Position in the center initially
+draggableFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+draggableFrame.Parent = GUI
+
+-- Draggable UI logic
+local dragging = false
+local dragInput, dragStart, startPos
+
+local function update(input)
+    local delta = input.Position - dragStart
+    draggableFrame.Position = UDim2.new(0, startPos.X.Offset + delta.X, 0, startPos.Y.Offset + delta.Y)
+end
+
+draggableFrame.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true
+        dragStart = input.Position
+        startPos = draggableFrame.Position
+
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
+            end
+        end)
+    end
+end)
+
+draggableFrame.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement and dragging then
+        update(input)
+    end
+end)
+
+-- Utility function to create other UI elements
+function Create(className, properties, children)
+    local obj = Instance.new(className)
+    for prop, value in pairs(properties) do
+        obj[prop] = value
+    end
+    if children then
+        for _, child in pairs(children) do
+            child.Parent = obj
+        end
+    end
+    return obj
+end
+
+-- Tween function
+function tween(obj, time, goal, callback)
+    local tweenInfo = TweenInfo.new(time, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+    local tween = TS:Create(obj, tweenInfo, goal)
+    tween:Play()
+    if callback then
+        tween.Completed:Connect(callback)
+    end
+end
+
+-- Notification function
+function lib:Notify(title, description, duration)
+    local notifyFrame = Create("Frame", {
+        BackgroundColor3 = Color3.fromRGB(30, 30, 30),
+        Size = UDim2.new(0, 300, 0, 80),
+        Position = UDim2.new(1, -310, 1, -90),
+        AnchorPoint = Vector2.new(1, 1),
+        Parent = GUI
+    }, {
+        Create("UICorner", { CornerRadius = UDim.new(0, 8) }),
+        Create("TextLabel", {
+            Text = title,
+            Font = Enum.Font.SourceSansBold,
+            TextSize = 18,
+            TextColor3 = Color3.fromRGB(255, 255, 255),
+            BackgroundTransparency = 1,
+            Position = UDim2.new(0, 10, 0, 10),
+            Size = UDim2.new(1, -20, 0, 30),
+            TextXAlignment = Enum.TextXAlignment.Left
+        }),
+        Create("TextLabel", {
+            Text = description,
+            Font = Enum.Font.SourceSans,
+            TextSize = 14,
+            TextColor3 = Color3.fromRGB(200, 200, 200),
+            BackgroundTransparency = 1,
+            Position = UDim2.new(0, 10, 0, 40),
+            Size = UDim2.new(1, -20, 0, 30),
+            TextWrapped = true,
+            TextXAlignment = Enum.TextXAlignment.Left
+        })
+    })
+
+    tween(notifyFrame, 0.3, { Position = UDim2.new(1, -310, 1, -90 - ((#GUI:GetChildren() - 1) * 90)) })
+
+    task.delay(duration or 5, function()
+        tween(notifyFrame, 0.3, { Position = UDim2.new(1, 310, 1, -90 - ((#GUI:GetChildren() - 1) * 90)) }, function()
+            notifyFrame:Destroy()
+        end)
+    end)
+end
+
+-- Player and character setup
 local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
 local tweenService = game:GetService("TweenService")
 
+-- Tween functions for movement
 local function playTween(targetCFrame)
     local tweenInfo = TweenInfo.new(2)
     local goal = {CFrame = targetCFrame}
@@ -11,6 +137,7 @@ local function playTween(targetCFrame)
     return tween
 end
 
+-- Fire Proximity Prompts
 local function fireProximityPrompts()
     spawn(function()
         for _, pro in ipairs(workspace:GetDescendants()) do
@@ -21,6 +148,17 @@ local function fireProximityPrompts()
     end)
 end
 
+-- Fly function
+local function fly()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt"))()
+end
+
+-- Clipboard script
+local function why()
+    setclipboard("while wait() do spawn(function() for _, pro in ipairs(workspace:GetDescendants()) do if pro:IsA('ProximityPrompt') then fireproximityprompt(pro) end end end) end")
+end
+
+-- Execute sequence of moves and actions
 local function executeSequence()
     local tween1 = playTween(CFrame.new(-90, 40, 249))
     tween1.Completed:Wait()
@@ -46,13 +184,20 @@ local function executeSequence()
     tween6.Completed:Wait()
     fireProximityPrompts()
 
-    local tween7 = playTween(CFrame.new(91, 0, 394))
+    local tween7 = playTween(CFrame.new(-130, 9, 246))
     tween7.Completed:Wait()
     fireProximityPrompts()
 
-    local tween8 = playTween(CFrame.new(-106, 8, 255))
+    local tween8 = playTween(CFrame.new(-111, 8, 254))
     tween8.Completed:Wait()
     fireProximityPrompts()
 end
 
+-- Notify users and start actions
+lib:Notify("Alwi Hub", "Hold Up Bro Wait To finished.", 5)
+lib:Notify("Alwi Hub", " Check our Clipboard and Go near mushroom and see ur track is gonna free mushrooms. and spam the script our setclipboards", 5)
+lib:Notify("Alwi Hub", "Join Discord https://discord.gg/BwmAz5Kv", 5)
+
 executeSequence()
+why()
+fly() 
