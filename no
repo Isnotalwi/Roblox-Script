@@ -1,0 +1,58 @@
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+local tweenService = game:GetService("TweenService")
+
+local function playTween(targetCFrame)
+    local tweenInfo = TweenInfo.new(2)
+    local goal = {CFrame = targetCFrame}
+    local tween = tweenService:Create(humanoidRootPart, tweenInfo, goal)
+    tween:Play()
+    return tween
+end
+
+local function fireProximityPrompts()
+    spawn(function()
+        for _, pro in ipairs(workspace:GetDescendants()) do
+            if pro:IsA("ProximityPrompt") then
+                fireproximityprompt(pro)
+            end
+        end
+    end)
+end
+
+local function executeSequence()
+    local tween1 = playTween(CFrame.new(-90, 40, 249))
+    tween1.Completed:Wait()
+    fireProximityPrompts()
+
+    local tween2 = playTween(CFrame.new(-160, 38, 199))
+    tween2.Completed:Wait()
+    fireProximityPrompts()
+
+    local tween3 = playTween(CFrame.new(-100, 40, 188))
+    tween3.Completed:Wait()
+    fireProximityPrompts()
+
+    local tween4 = playTween(CFrame.new(-130, 7, 202))
+    tween4.Completed:Wait()
+    fireProximityPrompts()
+
+    local tween5 = playTween(CFrame.new(-157, 9, 173))
+    tween5.Completed:Wait()
+    fireProximityPrompts()
+
+    local tween6 = playTween(CFrame.new(-128, 8, 251))
+    tween6.Completed:Wait()
+    fireProximityPrompts()
+
+    local tween7 = playTween(CFrame.new(91, 0, 394))
+    tween7.Completed:Wait()
+    fireProximityPrompts()
+
+    local tween8 = playTween(CFrame.new(-106, 8, 255))
+    tween8.Completed:Wait()
+    fireProximityPrompts()
+end
+
+executeSequence()
