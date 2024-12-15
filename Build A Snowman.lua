@@ -105,7 +105,7 @@ local hitboxToggled = false
 local hitboxSize = 40 
 
 
-Main:AddToggle("Enable Hitbox" [Boss], "Toggle hitbox modification", false, function(state)
+Main:AddToggle("Enable Hitbox [Boss]", "Toggle hitbox modification", false, function(state)
     hitboxToggled = state 
     if hitboxToggled then
         sendNotification("Hitbox", "Hitbox Modification Enabled", 3)
