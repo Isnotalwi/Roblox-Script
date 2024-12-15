@@ -186,7 +186,30 @@ task.spawn(function()
     end)
 end)
 end)
+Farm:AddButton("Kill aura boss", "?", function()
+local range = 1000000
 
+local player = game:GetService("Players").LocalPlayer
+
+game:GetService("RunService").RenderStepped:Connect(function()
+    local evilSnowman = game:GetService("Workspace"):FindFirstChild("Evil Snowman")
+    if evilSnowman and evilSnowman:IsA("Model") and evilSnowman:FindFirstChild("Humanoid") and evilSnowman.Humanoid.Health > 0 then
+        local humanoidRootPart = evilSnowman:FindFirstChild("HumanoidRootPart")
+        if humanoidRootPart and player:DistanceFromCharacter(humanoidRootPart.Position) <= range then
+            local tool = player.Character and player.Character:FindFirstChildOfClass("Tool")
+            if tool and tool:FindFirstChild("Handle") then
+                tool:Activate()
+                for _, part in next, evilSnowman:GetChildren() do
+                    if part:IsA("BasePart") then
+                        firetouchinterest(tool.Handle, part, 0)
+                        firetouchinterest(tool.Handle, part, 1)
+                    end
+                end
+            end
+        end
+    end
+end)
+end)
 
 Farm:AddButton("Fly GUI", "?", function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt"))()
@@ -195,3 +218,5 @@ end)
 Farm:AddButton("Shop Snowman", "?", function()
 game.Players.LocalPlayer.Character:PivotTo(CFrame.new(Vector3.new(-289, 24, -218)))
 end)
+
+sendNotification("Thank You for Executor", "Imagine? cry ass", 10)
