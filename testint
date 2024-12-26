@@ -1,1 +1,112 @@
-hi
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+local ToggleButton = Instance.new("TextButton")
+ToggleButton.Parent = ScreenGui
+ToggleButton.Size = UDim2.new(0, 200, 0, 50)
+ToggleButton.Position = UDim2.new(0.5, -100, 0.5, -25)
+ToggleButton.Text = "Start Script"
+ToggleButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+ToggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+
+local UICorner = Instance.new("UICorner")
+UICorner.CornerRadius = UDim.new(0, 12)
+UICorner.Parent = ToggleButton
+
+getgenv().Yollow = false
+
+local function toggleScript()
+    if getgenv().Yollow then
+        getgenv().Yollow = false
+        ToggleButton.Text = "Start Script"
+        ToggleButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+    else
+        getgenv().Yollow = true
+        ToggleButton.Text = "Stop Script"
+        ToggleButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+        spawn(function()
+            while getgenv().Yollow and task.wait() do
+                local function fireTouchInterest(targetPart)
+                    pcall(function()
+                        targetPart = targetPart:FindFirstAncestorWhichIsA("Part")
+                        if targetPart then
+                            if firetouchinterest then
+                                spawn(function()
+                                    local playerRoot = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+                                    if playerRoot then
+                                        firetouchinterest(targetPart, playerRoot, 1)
+                                        wait(0.1)
+                                        firetouchinterest(targetPart, playerRoot, 0)
+                                    end
+                                end)
+                            end
+                            local playerRoot = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+                            if playerRoot then
+                                targetPart.CFrame = playerRoot.CFrame
+                            end
+                        end
+                    end)
+                end
+
+                spawn(function()
+                    for _, object in ipairs(workspace:GetDescendants()) do
+                        pcall(function()
+                            if object:IsA("TouchTransmitter") then
+                                fireTouchInterest(object)
+                            end
+                        end)
+                    end
+                end)
+            end
+        end)
+    end
+end
+
+ToggleButton.MouseButton1Click:Connect(toggleScript)
+
+local dragInput, dragStart, startPos
+
+local function update(input)
+    local delta = input.Position - dragStart
+    ToggleButton.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+end
+
+ToggleButton.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragStart = input.Position
+        startPos = ToggleButton.Position
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragInput = nil
+            end
+        end)
+        dragInput = input
+    end
+end)
+
+game:GetService("UserInputService").InputChanged:Connect(function(input)
+    if dragInput then
+        update(input)
+    end
+end)
+
+local CreditLabel = Instance.new("TextLabel")
+CreditLabel.Parent = ScreenGui
+CreditLabel.Size = UDim2.new(0, 200, 0, 50)
+CreditLabel.Position = UDim2.new(0.5, -100, 0.9, -25)
+CreditLabel.Text = "Credits: Sibuxiang"
+CreditLabel.BackgroundTransparency = 1
+CreditLabel.TextSize = 14
+CreditLabel.TextStrokeTransparency = 0.8
+CreditLabel.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+
+local function updateRGBColor()
+    while true do
+        for i = 0, 255 do
+            CreditLabel.TextColor3 = Color3.fromRGB(i, 255 - i, math.abs(128 - i))
+            wait(0.01)
+        end
+    end
+end
+
+spawn(updateRGBColor)
