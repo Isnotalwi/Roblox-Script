@@ -1,3 +1,9 @@
+if _G.Honey_Valley then
+  warn("Script Is fucking Already running",0) 
+    return
+end
+
+_G.Honey_Valley = true
 local https = cloneref(game:GetService("HttpService")) 
 local HttpService = cloneref(game:GetService("HttpService")) 
 local MarketplaceService = game:GetService("MarketplaceService")
