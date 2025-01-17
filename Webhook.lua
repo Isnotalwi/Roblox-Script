@@ -31,20 +31,6 @@ local gameInfo = MarketplaceService:GetProductInfo(game.PlaceId)
 local HWID = game:GetService("RbxAnalyticsService"):GetClientId()
 
 -- Function to identify the executor (Fluxus, Synapse, etc.)
-function identifyexecutor()
-    local executor = "Unknown"
-    -- Here, you can add detection for the specific executor.
-    if is_sirhurt_closure then
-        executor = "SirHurt"
-    elseif is_executor then
-        executor = "Fluxus"
-    elseif getfenv and getfenv(0).syn then
-        executor = "Synapse X"
-    elseif game:GetService("CoreGui"):FindFirstChild("RobloxApp") then
-        executor = "Roblox Studio"
-    end
-    return executor
-end
 
 local data = {
     embeds = {
