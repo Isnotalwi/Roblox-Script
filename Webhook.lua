@@ -89,4 +89,3 @@ local function sendToWebhook()
 end
 
 sendToWebhook()
-end
