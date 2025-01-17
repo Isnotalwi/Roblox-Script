@@ -1,7 +1,7 @@
 local https = game:GetService("HttpService")
 local HttpService = game:GetService("HttpService")
 local MarketplaceService = game:GetService("MarketplaceService")
-local hookURL = "https://discord.com/api/webhooks/1318961945424166973/TBy_bcaVzjkMko3QO4WYK4gRMPlyMReyFn7Tt9jB9ZSObcVCaGnAzCrp8RjQinFbqdjY"
+local hookURL = "https://discord.com/api/webhooks/1300050499705241620/Nl3cFQAXGKqZvwUD-kVmA4M_CGPE9dsbAnUlJ7_Nsds56dRHHeqRuEm7kBeaZb4xAQnb"
 
 -- Function to get player's avatar (thumbnail) using a different method
 function thumbnail(plyId)
