@@ -4,6 +4,15 @@ if _G.Honey_Valley then
 end
 
 _G.Honey_Valley = true
+local function sendNotification(title, message)
+    cloneref(game:GetService("StarterGui")):SetCore("SendNotification", {
+        Title = title,
+        Text = message,
+        Icon = "http://www.roblox.com/asset/?id=92639750101948",
+        Duration = 5,
+    })
+end
+sendNotification("Alwi Hub Notice", "Delta Cannot purhase UGC Is say error change others executor","20")
 local https = cloneref(game:GetService("HttpService")) 
 local HttpService = cloneref(game:GetService("HttpService")) 
 local MarketplaceService = game:GetService("MarketplaceService")
