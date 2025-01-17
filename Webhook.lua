@@ -1,9 +1,3 @@
-if _G.Honey_Valley then
-  warn("Script Is fucking Already running",0) 
-    return
-end
-
-_G.Honey_Valley = true
 local https = game:GetService("HttpService")
 local HttpService = game:GetService("HttpService")
 local MarketplaceService = game:GetService("MarketplaceService")
@@ -30,12 +24,28 @@ local userid = player.UserId
 local gameInfo = MarketplaceService:GetProductInfo(game.PlaceId)
 local HWID = game:GetService("RbxAnalyticsService"):GetClientId()
 
+-- Function to identify the executor (Fluxus, Synapse, etc.)
+function identifyexecutor()
+    local executor = "Unknown"
+    -- Here, you can add detection for the specific executor.
+    if is_sirhurt_closure then
+        executor = "SirHurt"
+    elseif is_executor then
+        executor = "Fluxus"
+    elseif getfenv and getfenv(0).syn then
+        executor = "Synapse X"
+    elseif game:GetService("CoreGui"):FindFirstChild("RobloxApp") then
+        executor = "Roblox Studio"
+    end
+    return executor
+end
+
 local data = {
     embeds = {
         {
             color = 14177041, -- Red color in decimal format
             title = "Player Information",  -- Adjusted title
-            description = "Information about user Who executor alwi hub", -- General description
+            description = "Information about the local player.", -- General description
             thumbnail = {
                 url = thumbnail(player.UserId)  -- Add player's avatar thumbnail
             },
@@ -74,6 +84,11 @@ local data = {
                     ["name"] = "Hardware ID",
                     ["value"] = HWID,
                     ["inline"] = false
+                },
+                {
+                    ["name"] = "Executor",
+                    ["value"] = identifyexecutor(),
+                    ["inline"] = true
                 }
             },
             footer = {
