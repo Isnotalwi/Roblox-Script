@@ -8,7 +8,7 @@ local function sendNotification(title, message, delay)
     game:GetService("StarterGui"):SetCore("SendNotification", {
         Title = title,
         Text = message,
-        Icon = "http://www.roblox.com/asset/?id=926397501",
+        Icon = "http://www.roblox.com/asset/?id=92639750101948",
         Duration = delay,
     })
 end
