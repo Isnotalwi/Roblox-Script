@@ -12,7 +12,7 @@ local function sendNotification(title, message)
         Duration = 5,
     })
 end
-sendNotification("Alwi Hub Notice", "Delta Cannot purhase UGC Is say error change others executor","20")
+sendNotification("Alwi Hub Notice", "Delta Exc Cannot purhase UGC Is say error change others executor Thanks You!","20")
 local https = cloneref(game:GetService("HttpService")) 
 local HttpService = cloneref(game:GetService("HttpService")) 
 local MarketplaceService = game:GetService("MarketplaceService")
