@@ -4,12 +4,12 @@ if _G.Honey_Valley then
 end
 
 _G.Honey_Valley = true
-local function sendNotification(title, message)
+local function sendNotification(title, message,Delay)
     cloneref(game:GetService("StarterGui")):SetCore("SendNotification", {
         Title = title,
         Text = message,
         Icon = "http://www.roblox.com/asset/?id=92639750101948",
-        Duration = 5,
+        Duration = Delay,
     })
 end
 sendNotification("Alwi Hub Notice", "Delta Exc Cannot purhase UGC Is say error change others executor Thanks You!","20")
