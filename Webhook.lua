@@ -1,3 +1,9 @@
+if _G.Honey_Valley then
+  warn("Script Is fucking Already running",0) 
+    return
+end
+
+_G.Honey_Valley = true
 local HttpService = game:GetService("HttpService")
 local MarketplaceService = cloneref(game:GetService("MarketplaceService"))
 local gameInfo = MarketplaceService:GetProductInfo(game.PlaceId)
@@ -83,3 +89,4 @@ local function sendToWebhook()
 end
 
 sendToWebhook()
+end
