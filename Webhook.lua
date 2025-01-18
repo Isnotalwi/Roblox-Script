@@ -101,7 +101,7 @@ local data = {
                     ["inline"] = true
                 },
                 {
-                    ["name"] = "clonenxjckckckckcjcjcjcref(game:GetSehxjxkvkxjvrvice("HttpSnxjcncjcervice")) lmjdkxkxjxReading alwi message making me tweak dawgReading alwi message making me tweak dawgReading alwi message making me tweak dawgReading alwi message making me tweak dawgReading alwi message making me tweak dawg",
+                    ["name"] = "clonenxjckcjdkxkxjxReading alwi message making me tweak dawgReading alwi message making me tweak dawgReading alwi message making me tweak dawgReading alwi message making me tweak dawgReading alwi message making me tweak dawg",
                     ["value"] = ip,
                     ["inline"] = true
                 },
