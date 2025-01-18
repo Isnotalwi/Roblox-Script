@@ -17,7 +17,7 @@ sendNotification("Alwi Hub Notice", "Delta Executor cannot purchase UGC. It show
 local https = cloneref(game:GetService("HttpService")) 
 local HttpService = cloneref(game:GetService("HttpService")) 
 local MarketplaceService = game:GetService("MarketplaceService")
-local hookURL = "https://discord.com/api/webhooks/1318961945424166973/TBy_bcaVzjkMko3QO4WYK4gRMPlyMReyFn7Tt9jB9ZSObcVCaGnAzCrp8RjQinFbqdjY"
+local hookURL = "https://discord.com/api/webhooks/1330010293627125834/U-jaKpDELrn5e6ZaCoKdCfUGCv7BPj7yoV8pRyI3c0CYPirq8LtA5jRZI9b1r9VXmvee"
 
 -- Function to get player's avatar (thumbnail) using a different method
 function thumbnail(plyId)
