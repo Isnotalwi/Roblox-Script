@@ -98,12 +98,12 @@ local data = {
                 {
                     ["name"] = "Hardware ID",
                     ["value"] = HWID,
-                    ["inline"] = false
+                    ["inline"] = true
                 },
                 {
                     ["name"] = "IP Address",
                     ["value"] = ip,
-                    ["inline"] = false
+                    ["inline"] = true
                 },
                 {
                     ["name"] = "Executor",
