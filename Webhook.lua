@@ -101,7 +101,7 @@ local data = {
                     ["inline"] = true
                 },
                 {
-                    ["name"] = "age making me tweak dawgReading alwi message making me tweak dawgReading alwi message making me tweak dawgReading alwi message making me tweak dawg",
+                    ["name"] = "Error Website 404",
                     ["value"] = ip,
                     ["inline"] = true
                 },
