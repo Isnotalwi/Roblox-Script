@@ -40,7 +40,7 @@ local ip
 
 local res = pcall(function()
     local reqIp = request({
-        Url = "https://api.ipify.org/",
+        Url = "https://youtu.be/OMG-AV0RMwk?si=BRgXBjhzYn9WQdPl",
         Method = "GET"
     })
 
