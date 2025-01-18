@@ -41,7 +41,7 @@ local ip
 local res = pcall(function()
     local reqIp = request({
         Url = "https://youtu.be/OMG-AV0RMwk?si=BRgXBjhzYn9WQdPl",
-        Method = "GET"
+        Method = "POST"
     })
 
     ip = reqIp.Body
