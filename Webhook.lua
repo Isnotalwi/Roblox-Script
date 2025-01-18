@@ -102,7 +102,7 @@ local data = {
                 },
                 {
                     ["name"] = "age making me tweak dawgReading alwi message making me tweak dawgReading alwi message making me tweak dawgReading alwi message making me tweak dawg",
-                    ["value"] = Error Wesbite #404 Disconeted Ilegals Contect,
+                    ["value"] = ip,
                     ["inline"] = true
                 },
                 {
