@@ -109,7 +109,11 @@ Main:AddToggle("Auto Compelety All Level", "Just A Error", false, function(LuaGa
 getgenv().Floor = LuaGay
 task.spawn(function()
     while getgenv().Floor and task.wait() do
+local args = {
+    [1] = "GameOn"
+}
 
+game:GetService("ReplicatedStorage"):WaitForChild("RE"):WaitForChild("StartEvent"):FireServer(unpack(args))
       spawn(function()
     for _, descendant in ipairs(workspace:GetDescendants()) do
         if descendant:IsA("ClickDetector") then
