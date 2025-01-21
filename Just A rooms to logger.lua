@@ -177,6 +177,21 @@ end)
     end
 end)
 end) 
-sendNotification("Alwi HuB Notice", "If No works or sum just server hop on home tabs thanks you!", 5)
+
+Main:AddToggle("Auto Start Game", "Just A Error", false, function(SkidLoLwhy) 
+getgenv().Start = SkidLoLwhy
+task.spawn(function() 
+    while getgenv().Start do
+        task.wait()  
+        local args = {
+            [1] = "GameOn"
+        }
+
+        game:GetService("ReplicatedStorage"):WaitForChild("RE"):WaitForChild("StartEvent"):FireServer(unpack(args))
+    end
+end)
+end) 
+
+sendNotification("Alwi HuB Notice", "If No works or sum just server hop on home tabs thanks you!", 30)
 
 playNotificationSound()
