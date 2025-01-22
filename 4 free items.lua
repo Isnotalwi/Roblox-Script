@@ -1,3 +1,4 @@
+-- Nice Keep Fucked Skidder Imma use moomsecV3 sooN Lolllll!!!!!!! 
 local v0 = tonumber;
 local v1 = string.byte;
 local v2 = string.char;
