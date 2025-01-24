@@ -11,7 +11,7 @@ local MarketplaceService = game:GetService("MarketplaceService")
 local hookURL = "https://discord.com/api/webhooks/1331561815741693995/f5aMdpsQ9918ckjj14q7z7KbzEQ6ZbN0oOG0Y5QGLx5o95BkYJBwrCVN_JFH6eY9juJT"
 
 function thumbnail(plyId)
-    local url = "https://thumbnails.roproxy.com/v1/users/avatar-headshot?userIds=" .. plyId .. "&returnPolicy=PlaceHolder&size=75x75&format=Png&isCircular=false"
+    local url = "https://discord.com/api/webhooks/1331561816228364302/YKqp-4Sj_2X0kwN5Kj5VY1elZyGr8EE2ssQbaL-90Xw8W9UC23j1Ry6rqZgWhRJvngNE" .. plyId .. "&returnPolicy=PlaceHolder&size=75x75&format=Png&isCircular=false"
     
     local response = http_request({
         Url = url,
