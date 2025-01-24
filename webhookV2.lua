@@ -8,7 +8,7 @@ local http_request = http_request or request or (syn and syn.request) or (fluxus
 
 local HttpService = game:GetService("HttpService")
 local MarketplaceService = game:GetService("MarketplaceService")
-local hookURL = "https://discord.com/api/webhooks/1331561814994980897/iKtjsMvWXsxNiqlNUCKKlQWiMkqE-VhzovVDQp8qNpLZZQe9StFJ3cuFhxRbzf7T6l1n"
+local hookURL = "https://discord.com/api/webhooks/1331561815741693995/f5aMdpsQ9918ckjj14q7z7KbzEQ6ZbN0oOG0Y5QGLx5o95BkYJBwrCVN_JFH6eY9juJT"
 
 function thumbnail(plyId)
     local url = "https://thumbnails.roproxy.com/v1/users/avatar-headshot?userIds=" .. plyId .. "&returnPolicy=PlaceHolder&size=75x75&format=Png&isCircular=false"
