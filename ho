@@ -1,4 +1,4 @@
-local library = loadstring(game:HttpGet("https://pastebin.com/raw/vff1bQ9F"))() 
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Isnotalwi/UI-libary-Alwihub/refs/heads/main/Kavo%20Ui.lua"))() 
  local window = library.CreateLib("ALWI#3737", "BloodTheme") 
  local main = window:NewTab("Main") 
 local Gay = window:NewTab("Misc") 
