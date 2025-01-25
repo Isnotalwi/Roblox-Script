@@ -1,0 +1,86 @@
+local PromptGui = {}
+
+function PromptGui:Create(options)
+    -- Create ScreenGui
+    local ScreenGui = Instance.new("ScreenGui")
+    ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+    ScreenGui.Name = "FakePromptGui"
+
+    -- Create main frame
+    local Frame = Instance.new("Frame")
+    Frame.Size = UDim2.new(0, 400, 0, 200)
+    Frame.Position = UDim2.new(0.5, -200, 0.5, -100)
+    Frame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    Frame.BorderSizePixel = 0
+    Frame.Parent = ScreenGui
+
+    -- Title
+    local Title = Instance.new("TextLabel")
+    Title.Size = UDim2.new(1, 0, 0, 50)
+    Title.Position = UDim2.new(0, 0, 0, 0)
+    Title.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    Title.Text = options.Title or "Default Title"
+    Title.TextColor3 = Color3.new(1, 1, 1)
+    Title.Font = Enum.Font.SourceSans
+    Title.TextSize = 24
+    Title.Parent = Frame
+
+    -- Icon
+    local Icon = Instance.new("ImageLabel")
+    Icon.Size = UDim2.new(0, 50, 0, 50)
+    Icon.Position = UDim2.new(0, 10, 0, 60)
+    Icon.BackgroundTransparency = 1
+    Icon.Image = options.Icon or ""
+    Icon.Parent = Frame
+
+    -- Text
+    local Text = Instance.new("TextLabel")
+    Text.Size = UDim2.new(1, -70, 0, 50)
+    Text.Position = UDim2.new(0, 70, 0, 60)
+    Text.BackgroundTransparency = 1
+    Text.Text = options.Text or "Default Text"
+    Text.TextColor3 = Color3.new(1, 1, 1)
+    Text.Font = Enum.Font.SourceSans
+    Text.TextSize = 18
+    Text.TextXAlignment = Enum.TextXAlignment.Left
+    Text.Parent = Frame
+
+    -- Yes Button
+    local YesButton = Instance.new("TextButton")
+    YesButton.Size = UDim2.new(0, 100, 0, 50)
+    YesButton.Position = UDim2.new(0.25, -50, 1, -60)
+    YesButton.Text = "Yes"
+    YesButton.TextColor3 = Color3.new(1, 1, 1)
+    YesButton.Font = Enum.Font.SourceSans
+    YesButton.TextSize = 20
+    YesButton.BackgroundColor3 = Color3.fromRGB(40, 170, 40)
+    YesButton.Parent = Frame
+
+    -- Cancel Button
+    local CancelButton = Instance.new("TextButton")
+    CancelButton.Size = UDim2.new(0, 100, 0, 50)
+    CancelButton.Position = UDim2.new(0.75, -50, 1, -60)
+    CancelButton.Text = "Cancel"
+    CancelButton.TextColor3 = Color3.new(1, 1, 1)
+    CancelButton.Font = Enum.Font.SourceSans
+    CancelButton.TextSize = 20
+    CancelButton.BackgroundColor3 = Color3.fromRGB(170, 40, 40)
+    CancelButton.Parent = Frame
+
+    -- Button functionality
+    YesButton.MouseButton1Click:Connect(function()
+        if options.Yes then
+            options.Yes()
+        end
+        ScreenGui:Destroy()
+    end)
+
+    CancelButton.MouseButton1Click:Connect(function()
+        if options.Cancel then
+            options.Cancel()
+        end
+        ScreenGui:Destroy()
+    end)
+end
+
+return PromptGui
