@@ -16,6 +16,15 @@ section:NewButton("Change Point to Kon Place", "", function()
 
 end) 
 
+section:NewButton("Chest", "", function() 
+game.Players.LocalPlayer.Character:PivotTo(CFrame.new(Vector3.new(187, -69, 110)))
+for _, v in next, workspace:GetDescendants() do
+        if v:IsA("ProximityPrompt") then
+            v.HoldDuration = 0
+        end
+    end
+end) 
+
 section:NewButton("Kill Aura Smile", "", function() 
 local range = 2000 -- put range you want here
  
