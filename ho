@@ -1,59 +1,61 @@
-local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Isnotalwi/UI-libary-Alwihub/refs/heads/main/Kavo%20Ui.lua"))() 
- local window = library.CreateLib("ALWI#3737", "BloodTheme") 
- local main = window:NewTab("Main") 
-local Gay = window:NewTab("Misc") 
- local section = main:NewSection("OPP :)") 
-local why = Gay:NewSection("If u get bagde Teleport The FLEX UGC CODE") 
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Isnotalwi/UI-libary-Alwihub/refs/heads/main/Kavo%20Ui.lua"))()
+local window = library.CreateLib("ALWI#3737", "BloodTheme")
 
-section:NewButton("Teloport Smile", "", function() 
-game.Players.LocalPlayer.Character:PivotTo(CFrame.new(Vector3.new(-182, 14, -471)))
-end
-section:NewButton("Change Point to Kon Place", "", function() 
+local main = window:NewTab("Main")
+local Gay = window:NewTab("Misc")
+
+local section = main:NewSection("OPP :)")
+local why = Gay:NewSection("If u get bagde Teleport The FLEX UGC CODE")
+
+section:NewButton("Teloport Smile", "", function()
+    game.Players.LocalPlayer.Character:PivotTo(CFrame.new(Vector3.new(-182, 14, -471)))
+end) -- Missing closing parenthesis added here
+
+section:NewButton("Change Point to Kon Place", "", function()
     local tweenInfo = TweenInfo.new(2)
     local goal = {CFrame = CFrame.new(-266, 13, -129)}
     local tween = game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character.HumanoidRootPart, tweenInfo, goal)
     tween:Play()
+end)
 
-end) 
-
-section:NewButton("Chest", "", function() 
-game.Players.LocalPlayer.Character:PivotTo(CFrame.new(Vector3.new(187, -69, 110)))
-for _, v in next, workspace:GetDescendants() do
+section:NewButton("Chest", "", function()
+    game.Players.LocalPlayer.Character:PivotTo(CFrame.new(Vector3.new(187, -69, 110)))
+    for _, v in next, workspace:GetDescendants() do
         if v:IsA("ProximityPrompt") then
             v.HoldDuration = 0
         end
     end
-end) 
+end)
 
-section:NewButton("Kill Aura Smile", "", function() 
-local range = 2000 -- put range you want here
- 
-local player = game:GetService("Players").LocalPlayer
+section:NewButton("Kill Aura Smile", "", function()
+    local range = 2000 -- put range you want here
+    local player = game:GetService("Players").LocalPlayer
 
-game:GetService("RunService").RenderStepped:Connect(function()
-    for _, npc in ipairs(game:GetService("Workspace"):GetChildren()) do
-        if npc.Name == "Zunda Mochi-chan" and npc:FindFirstChild("Humanoid") and npc:FindFirstChild("HumanoidRootPart") then
-            if npc.Humanoid.Health > 0 and player:DistanceFromCharacter(npc.HumanoidRootPart.Position) <= range then
-                local tool = player.Character and player.Character:FindFirstChildOfClass("Tool")
-                if tool and tool:FindFirstChild("Handle") then
-                    tool:Activate()
-                    for _, part in ipairs(npc:GetChildren()) do
-                        if part:IsA("BasePart") then
-                            firetouchinterest(tool.Handle, part, 0)
-                            firetouchinterest(tool.Handle, part, 1)
+    game:GetService("RunService").RenderStepped:Connect(function()
+        for _, npc in ipairs(game:GetService("Workspace"):GetChildren()) do
+            if npc.Name == "Zunda Mochi-chan" and npc:FindFirstChild("Humanoid") and npc:FindFirstChild("HumanoidRootPart") then
+                if npc.Humanoid.Health > 0 and player:DistanceFromCharacter(npc.HumanoidRootPart.Position) <= range then
+                    local tool = player.Character and player.Character:FindFirstChildOfClass("Tool")
+                    if tool and tool:FindFirstChild("Handle") then
+                        tool:Activate()
+                        for _, part in ipairs(npc:GetChildren()) do
+                            if part:IsA("BasePart") then
+                                firetouchinterest(tool.Handle, part, 0)
+                                firetouchinterest(tool.Handle, part, 1)
+                            end
                         end
                     end
                 end
             end
         end
-    end
+    end)
 end)
-end) 
 
-why:NewButton("Teleport The Flex ugc code", "", function() 
--- This Script was Generated 
- game:GetService('TeleportService'):Teleport(15108736400, LocalPlayer)
-end) 
-why:NewButton("Copy Code", "", function() 
-setclipboard("Shamisen093") 
-end) 
+why:NewButton("Teleport The Flex ugc code", "", function()
+    -- This Script was Generated
+    game:GetService('TeleportService'):Teleport(15108736400, LocalPlayer)
+end)
+
+why:NewButton("Copy Code", "", function()
+    setclipboard("Shamisen093")
+end)
