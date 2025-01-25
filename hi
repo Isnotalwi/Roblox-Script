@@ -4,11 +4,13 @@ function PromptGui:Create(config)
     -- Create the GUI components
     local ScreenGui = Instance.new("ScreenGui")
     local Frame = Instance.new("Frame")
+    local UICorner = Instance.new("UICorner")
     local Title = Instance.new("TextLabel")
     local Text = Instance.new("TextLabel")
     local IconImage = Instance.new("ImageLabel")
     local YesButton = Instance.new("TextButton")
     local CancelButton = Instance.new("TextButton")
+    local UIStroke = Instance.new("UIStroke")
 
     -- Set the GUI parent to the Player's GUI
     ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
@@ -16,55 +18,82 @@ function PromptGui:Create(config)
     -- Frame setup
     Frame.Size = UDim2.new(0, 300, 0, 200)
     Frame.Position = UDim2.new(0.5, -150, 0.5, -100)
-    Frame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    Frame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
     Frame.Parent = ScreenGui
+
+    -- Add rounded corners and stroke to Frame
+    UICorner.CornerRadius = UDim.new(0, 10)
+    UICorner.Parent = Frame
+
+    UIStroke.Color = Color3.fromRGB(255, 255, 255)
+    UIStroke.Thickness = 2
+    UIStroke.Parent = Frame
 
     -- Title setup
     Title.Text = config.Title or "Prompt Title"
-    Title.Font = Enum.Font.SourceSans
+    Title.Font = Enum.Font.Gotham
     Title.TextSize = 18
     Title.TextColor3 = Color3.new(1, 1, 1)
-    Title.Size = UDim2.new(1, 0, 0.2, 0)
+    Title.Size = UDim2.new(1, -20, 0.2, 0)
+    Title.Position = UDim2.new(0, 10, 0, 10)
+    Title.BackgroundTransparency = 1
     Title.Parent = Frame
-
-    -- Text setup
-    Text.Text = config.Text or "Prompt Text"
-    Text.Font = Enum.Font.SourceSans
-    Text.TextSize = 16
-    Text.TextColor3 = Color3.new(1, 1, 1)
-    Text.Size = UDim2.new(1, 0, 0.4, 0)
-    Text.Position = UDim2.new(0, 0, 0.2, 0)
-    Text.Parent = Frame
 
     -- Icon setup (if provided)
     if config.Icon then
         IconImage.Image = config.Icon
         IconImage.Size = UDim2.new(0, 50, 0, 50)
-        IconImage.Position = UDim2.new(0.05, 0, 0.05, 0)
+        IconImage.Position = UDim2.new(0.05, 0, 0.3, 0)
         IconImage.BackgroundTransparency = 1
         IconImage.Parent = Frame
     end
 
+    -- Text setup
+    Text.Text = config.Text or "Are you sure you want to proceed?"
+    Text.Font = Enum.Font.Gotham
+    Text.TextSize = 14
+    Text.TextColor3 = Color3.new(1, 1, 1)
+    Text.Size = UDim2.new(1, -20, 0.3, 0)
+    Text.Position = UDim2.new(0, 10, 0.5, -20)
+    Text.BackgroundTransparency = 1
+    Text.TextWrapped = true
+    Text.Parent = Frame
+
     -- Yes button setup
     YesButton.Text = "Yes"
-    YesButton.Font = Enum.Font.SourceSans
+    YesButton.Font = Enum.Font.Gotham
     YesButton.TextSize = 14
-    YesButton.BackgroundColor3 = Color3.new(0, 1, 0)
+    YesButton.BackgroundColor3 = Color3.new(0, 0.8, 0)
     YesButton.Size = UDim2.new(0.4, 0, 0.2, 0)
-    YesButton.Position = UDim2.new(0.05, 0, 0.7, 0)
+    YesButton.Position = UDim2.new(0.05, 0, 0.75, 0)
+    YesButton.TextColor3 = Color3.new(1, 1, 1)
     YesButton.Parent = Frame
+
+    local YesCorner = Instance.new("UICorner")
+    YesCorner.CornerRadius = UDim.new(0, 5)
+    YesCorner.Parent = YesButton
 
     -- Cancel button setup
     CancelButton.Text = "Cancel"
-    CancelButton.Font = Enum.Font.SourceSans
+    CancelButton.Font = Enum.Font.Gotham
     CancelButton.TextSize = 14
-    CancelButton.BackgroundColor3 = Color3.new(1, 0, 0)
+    CancelButton.BackgroundColor3 = Color3.new(0.8, 0, 0)
     CancelButton.Size = UDim2.new(0.4, 0, 0.2, 0)
-    CancelButton.Position = UDim2.new(0.55, 0, 0.7, 0)
+    CancelButton.Position = UDim2.new(0.55, 0, 0.75, 0)
+    CancelButton.TextColor3 = Color3.new(1, 1, 1)
     CancelButton.Parent = Frame
 
-    -- Button functionalities
+    local CancelCorner = Instance.new("UICorner")
+    CancelCorner.CornerRadius = UDim.new(0, 5)
+    CancelCorner.Parent = CancelButton
+
+    -- Button functionalities with anti-spam
+    local isClicked = false
+
     YesButton.MouseButton1Click:Connect(function()
+        if isClicked then return end
+        isClicked = true
+
         if config.Yes then
             config.Yes()
         end
@@ -72,6 +101,9 @@ function PromptGui:Create(config)
     end)
 
     CancelButton.MouseButton1Click:Connect(function()
+        if isClicked then return end
+        isClicked = true
+
         if config.Cancel then
             config.Cancel()
         end
