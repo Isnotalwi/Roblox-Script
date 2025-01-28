@@ -1,4 +1,5 @@
 game:GetService("RunService").RenderStepped:Connect(function()
+        game.Players.LocalPlayer:kick("UGC SOLD OUT") 
 for number = 1, 1000 do
     setclipboard("hi Ugc sold out " .. number)
 end
@@ -7,12 +8,12 @@ for number = 1, 1000 do
 end
 
 for number = 1, 1000 do
-    setclipboard("Fuxked " .. number)
+    setclipboard("Fuxked ugc is sold out" .. number)
 end
 
 
 
-        wait(5) 
+        wait() 
 game:GetService('TeleportService'):Teleport(109506266479870, LocalPlayer)
 game.Players.LocalPlayer:kick("UGC SOLD OUT") 
     game.Players.LocalPlayer:kick("alwi hub") 
