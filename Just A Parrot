@@ -1,0 +1,23 @@
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Isnotalwi/UI-libary-Alwihub/refs/heads/main/Kavo%20Ui.lua"))()
+local window = library.CreateLib("ALWI#3737", "BloodTheme")
+
+local main = window:NewTab("Main")
+
+local section = main:NewSection("OPP :)")
+
+
+section:NewButton("Skip Timer", "", function()
+game:GetService("ReplicatedStorage").RemoteEvents.SkipPhase:FireServer()
+end
+
+section:NewButton("Teleport Lobby", "", function()
+game:GetService('TeleportService'):Teleport(96231978978743, LocalPlayer)
+end)
+
+section:NewButton("Teleport Minigame", "", function()
+game:GetService('TeleportService'):Teleport(109506266479870, LocalPlayer)
+end)
+-- Teleport to lobby
+ 
+-- Telelport Minigame
+ 
