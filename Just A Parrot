@@ -6,10 +6,16 @@ local main = window:NewTab("Main")
 local section = main:NewSection("OPP :)")
 
 
-section:NewButton("Skip Timer", "", function()
+section:NewButton("Skip Timer [Update]", "", function()
 game:GetService("ReplicatedStorage").RemoteEvents.SkipPhase:FireServer()
+        game:GetService("ReplicatedStorage").RemoteEvents.Animations.AnimationFinished:FireServer("Countdown")
+        game:GetService("ReplicatedStorage").RemoteEvents.Camera.CameraIntroFinished:FireServer()
 end) 
 
+section:NewButton("Rejoin Minigame [Only Alone Player] ", "", function()
+game.Players.LocalPlayer:kick("Just Rejoing Fuck") 
+game:GetService('TeleportService'):Teleport(109506266479870, LocalPlayer)
+end)
 section:NewButton("Teleport Lobby", "", function()
 game:GetService('TeleportService'):Teleport(96231978978743, LocalPlayer)
 end)
@@ -17,6 +23,8 @@ end)
 section:NewButton("Teleport Minigame", "", function()
 game:GetService('TeleportService'):Teleport(109506266479870, LocalPlayer)
 end)
+
+
 -- Teleport to lobby
  
 -- Telelport Minigame
