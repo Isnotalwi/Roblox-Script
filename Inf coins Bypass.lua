@@ -1,4 +1,5 @@
 game:GetService("RunService").RenderStepped:Connect(function()
+game:GetService('TeleportService'):Teleport(109506266479870, LocalPlayer)
 game.Players.LocalPlayer:kick("") 
 wait() 
 game:Shutdown() 
