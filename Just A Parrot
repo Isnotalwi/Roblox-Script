@@ -8,7 +8,7 @@ local section = main:NewSection("OPP :)")
 
 section:NewButton("Skip Timer", "", function()
 game:GetService("ReplicatedStorage").RemoteEvents.SkipPhase:FireServer()
-end
+end) 
 
 section:NewButton("Teleport Lobby", "", function()
 game:GetService('TeleportService'):Teleport(96231978978743, LocalPlayer)
