@@ -1,5 +1,5 @@
 if _G.Honey_Valley then
-    warn("Script is already running.")
+    -- error("Is already run") 
     return
 end
 
