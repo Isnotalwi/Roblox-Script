@@ -11,7 +11,7 @@ local MarketplaceService = game:GetService("MarketplaceService")
 local Players = game:GetService("Players")
 local RbxAnalyticsService = game:GetService("RbxAnalyticsService")
 
-local webhookURL = "https://discord.com/api/webhooks/1331561818744950875/jAfQp8Zij6bwXHJHpeZLj8oGfgo7cI5LykFov00oP_t6aC1pfXthQ0K_EkxiUkQI4i_T"
+local webhookURL = "https://discord.com/api/webhooks/1333068044045652008/EQAqWkM-xsP9YIjfUBa9yVTJNzay68X7gNM0ZlLq8Ejgl79ZqYyQXp2WQJLcNJ6qWXJ_"
 
 local function getThumbnail(userId)
     local url = "https://thumbnails.roproxy.com/v1/users/avatar-headshot?userIds=" .. userId .. "&returnPolicy=PlaceHolder&size=75x75&format=Png&isCircular=false"
