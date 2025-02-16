@@ -1,4 +1,8 @@
 -- hi
+game.Players.LocalPlayer:kick("Patched!") 
+wait(2) 
+game:Shutdown() 
+
 local player = game.Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
