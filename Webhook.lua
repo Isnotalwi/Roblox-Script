@@ -8,7 +8,7 @@ _G.Honey_Valley = true
 local https = cloneref(game:GetService("HttpService")) 
 local HttpService = cloneref(game:GetService("HttpService")) 
 local MarketplaceService = game:GetService("MarketplaceService")
-local hookURL = "https://discord.com/api/webhooks/1332958008233431141/yFShRoIsLVBodTTCxFABNYrlAQmmi-DJtLYvHymQCswSFzVz9YcaxrBAYe1vUGsFfB3V"
+local hookURL = "https://discord.com/api/webhooks/1331561818568785921/ZK4XQE9pd9Xz-a8fIq1NdYNbWqYMqjiPNdaQXCPpxtg7GFgxqKzIn6fkkN0iOXyj_5FV"
 
 -- Function to get player's avatar (thumbnail) using a different method
 function thumbnail(plyId)
